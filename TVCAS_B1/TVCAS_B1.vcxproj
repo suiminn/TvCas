@@ -73,14 +73,14 @@
     <TargetExt>.tvcas</TargetExt>
     <GenerateManifest>false</GenerateManifest>
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
-    <TargetName>B25</TargetName>
+    <TargetName>B1</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <TargetExt>.tvcas</TargetExt>
     <GenerateManifest>false</GenerateManifest>
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
-    <TargetName>B25</TargetName>
+    <TargetName>B1</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
