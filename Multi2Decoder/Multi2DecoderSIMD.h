@@ -1,4 +1,4 @@
-#ifndef MULTI2_DECODER_SIMD
+﻿#ifndef MULTI2_DECODER_SIMD
 #define MULTI2_DECODER_SIMD
 
 

@@ -1,4 +1,4 @@
-// CasCard.h: CCasCard ƒNƒ‰ƒX‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX
+ï»¿// CasCard.h: CCasCard ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -8,34 +8,34 @@
 #include "BonBaseClass.h"
 #include "CardReader.h"
 
-// ECMƒf[ƒ^‚ÌÅ¬/Å‘åƒTƒCƒY
+// ECMãƒ‡ãƒ¼ã‚¿ã®æœ€å°/æœ€å¤§ã‚µã‚¤ã‚º
 #define MIN_ECM_DATA_SIZE 30
 #define MAX_ECM_DATA_SIZE 256
-// EMMƒf[ƒ^‚ÌÅ‘åƒTƒCƒY
+// EMMãƒ‡ãƒ¼ã‚¿ã®æœ€å¤§ã‚µã‚¤ã‚º
 #define MAX_EMM_DATA_SIZE 263
 
 class CCasCard : public CBonBaseClass
 {
 public:
-	// ƒGƒ‰[ƒR[ƒh
+	// ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰
 	enum {
-		ERR_NOERROR			= 0x00000000UL,	// ƒGƒ‰[‚È‚µ
-		ERR_INTERNALERROR	= 0x00000001UL,	// “à•”ƒGƒ‰[
-		ERR_NOTESTABLISHED	= 0x00000002UL,	// ƒRƒ“ƒeƒLƒXƒgŠm—§Ž¸”s
-		ERR_NOCARDREADERS	= 0x00000003UL,	// ƒJ[ƒhƒŠ[ƒ_‚ª‚È‚¢
-		ERR_ALREADYOPEN		= 0x00000004UL,	// Šù‚ÉƒI[ƒvƒ“Ï‚Ý
-		ERR_CARDOPENERROR	= 0x00000005UL,	// ƒJ[ƒhƒI[ƒvƒ“Ž¸”s
-		ERR_CARDNOTOPEN		= 0x00000006UL,	// ƒJ[ƒh–¢ƒI[ƒvƒ“
-		ERR_TRANSMITERROR	= 0x00000007UL,	// ’ÊMƒGƒ‰[
-		ERR_BADARGUMENT		= 0x00000008UL,	// ˆø”‚ª•s³
-		ERR_ECMREFUSED		= 0x00000009UL,	// ECMŽó•t‹‘”Û
-		ERR_EMMERROR		= 0x0000000AUL,	// EMMˆ—ƒGƒ‰[
-		ERR_UNCONTRACTED	= 0x0000000BUL,	// ”ñŒ_–ñ
-		ERR_PURCHASEAVAIL	= 0x0000000CUL,	// w“ü‰Â
-		ERR_PURCHASEREFUSED	= 0x0000000DUL,	// w“ü‹‘”Û
-		ERR_SECURITY		= 0x0000000EUL,	// ƒZƒLƒ…ƒŠƒeƒBƒGƒ‰[
-		ERR_UNKNOWNCODE		= 0x0000000FUL,	// •s–¾‚ÈƒR[ƒh
-		ERR_NONOPERATIONAL	= 0x00000010UL	// ”ñ‰^—p
+		ERR_NOERROR			= 0x00000000UL,	// ã‚¨ãƒ©ãƒ¼ãªã—
+		ERR_INTERNALERROR	= 0x00000001UL,	// å†…éƒ¨ã‚¨ãƒ©ãƒ¼
+		ERR_NOTESTABLISHED	= 0x00000002UL,	// ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆç¢ºç«‹å¤±æ•—
+		ERR_NOCARDREADERS	= 0x00000003UL,	// ã‚«ãƒ¼ãƒ‰ãƒªãƒ¼ãƒ€ãŒãªã„
+		ERR_ALREADYOPEN		= 0x00000004UL,	// æ—¢ã«ã‚ªãƒ¼ãƒ—ãƒ³æ¸ˆã¿
+		ERR_CARDOPENERROR	= 0x00000005UL,	// ã‚«ãƒ¼ãƒ‰ã‚ªãƒ¼ãƒ—ãƒ³å¤±æ•—
+		ERR_CARDNOTOPEN		= 0x00000006UL,	// ã‚«ãƒ¼ãƒ‰æœªã‚ªãƒ¼ãƒ—ãƒ³
+		ERR_TRANSMITERROR	= 0x00000007UL,	// é€šä¿¡ã‚¨ãƒ©ãƒ¼
+		ERR_BADARGUMENT		= 0x00000008UL,	// å¼•æ•°ãŒä¸æ­£
+		ERR_ECMREFUSED		= 0x00000009UL,	// ECMå—ä»˜æ‹’å¦
+		ERR_EMMERROR		= 0x0000000AUL,	// EMMå‡¦ç†ã‚¨ãƒ©ãƒ¼
+		ERR_UNCONTRACTED	= 0x0000000BUL,	// éžå¥‘ç´„
+		ERR_PURCHASEAVAIL	= 0x0000000CUL,	// è³¼å…¥å¯
+		ERR_PURCHASEREFUSED	= 0x0000000DUL,	// è³¼å…¥æ‹’å¦
+		ERR_SECURITY		= 0x0000000EUL,	// ã‚»ã‚­ãƒ¥ãƒªãƒ†ã‚£ã‚¨ãƒ©ãƒ¼
+		ERR_UNKNOWNCODE		= 0x0000000FUL,	// ä¸æ˜Žãªã‚³ãƒ¼ãƒ‰
+		ERR_NONOPERATIONAL	= 0x00000010UL	// éžé‹ç”¨
 	};
 
 	enum {
@@ -96,9 +96,9 @@ protected:
 
 	struct TAG_ECMSTATUS
 	{
-		DWORD dwLastEcmSize;					// ÅŒã‚É–â‚¢‡‚í‚¹‚Ì‚ ‚Á‚½ECMƒTƒCƒY
-		BYTE LastEcmData[MAX_ECM_DATA_SIZE];	// ÅŒã‚É–â‚¢‡‚í‚¹‚Ì‚ ‚Á‚½ECMƒf[ƒ^
+		DWORD dwLastEcmSize;					// æœ€å¾Œã«å•ã„åˆã‚ã›ã®ã‚ã£ãŸECMã‚µã‚¤ã‚º
+		BYTE LastEcmData[MAX_ECM_DATA_SIZE];	// æœ€å¾Œã«å•ã„åˆã‚ã›ã®ã‚ã£ãŸECMãƒ‡ãƒ¼ã‚¿
 		BYTE KsData[16];						// Ks Odd + Even
-		bool bSucceeded;						// ECM‚ªŽó‚¯•t‚¯‚ç‚ê‚½‚©
+		bool bSucceeded;						// ECMãŒå—ã‘ä»˜ã‘ã‚‰ã‚ŒãŸã‹
 	} m_EcmStatus;
 };

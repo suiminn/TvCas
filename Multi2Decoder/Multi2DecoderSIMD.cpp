@@ -1,4 +1,4 @@
-#include <windows.h>
+ï»¿#include <windows.h>
 #include "Multi2Decoder.h"
 #include <intrin.h>
 #include <emmintrin.h>
@@ -8,7 +8,7 @@
 #include "Multi2DecoderSIMD.h"
 
 
-// ƒpƒCƒvƒ‰ƒCƒ“Œü‚¯Å“K‰»
+// ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³å‘ã‘æœ€é©åŒ–
 #define MULTI2_OPTIMIZE_FOR_PIPELINE
 
 
@@ -129,13 +129,13 @@ static __forceinline const DWORD LeftRotate(const DWORD dwValue, const DWORD dwR
 
 static __forceinline void RoundFuncPi1(DWORD &Left, DWORD &Right)
 {
-	// Elementary Encryption Function ƒÎ1
+	// Elementary Encryption Function Ï€1
 	Right ^= Left;
 }
 
 static __forceinline void RoundFuncPi2(DWORD &Left, DWORD &Right, const DWORD dwK1)
 {
-	// Elementary Encryption Function ƒÎ2
+	// Elementary Encryption Function Ï€2
 	const DWORD dwY = Right + dwK1;
 	const DWORD dwZ = LeftRotate(dwY, 1UL) + dwY - 1UL;
 	Left ^= LeftRotate(dwZ, 4UL) ^ dwZ;
@@ -143,7 +143,7 @@ static __forceinline void RoundFuncPi2(DWORD &Left, DWORD &Right, const DWORD dw
 
 static __forceinline void RoundFuncPi3(DWORD &Left, DWORD &Right, const DWORD dwK2, const DWORD dwK3)
 {
-	// Elementary Encryption Function ƒÎ3
+	// Elementary Encryption Function Ï€3
 	const DWORD dwY = Left + dwK2;
 	const DWORD dwZ = LeftRotate(dwY, 2UL) + dwY + 1UL;
 	const DWORD dwA = LeftRotate(dwZ, 8UL) ^ dwZ;
@@ -154,7 +154,7 @@ static __forceinline void RoundFuncPi3(DWORD &Left, DWORD &Right, const DWORD dw
 
 static __forceinline void RoundFuncPi4(DWORD &Left, DWORD &Right, const DWORD dwK4)
 {
-	// Elementary Encryption Function ƒÎ4
+	// Elementary Encryption Function Ï€4
 	const DWORD dwY = Right + dwK4;
 	Left ^= (LeftRotate(dwY, 2UL) + dwY + 1UL);
 }
@@ -198,7 +198,7 @@ void Decode(BYTE * __restrict pData, const DWORD dwSize,
 		CbcRight = Src2;
 	}
 
-	// OFBƒ‚[ƒh
+	// OFBãƒ¢ãƒ¼ãƒ‰
 	DWORD RemainSize = dwSize & 0x00000007UL;
 	if (RemainSize) {
 		for (int Round = 0 ; Round < SCRAMBLE_ROUND ; Round++) {
@@ -386,9 +386,9 @@ void DecodeSSE2(BYTE * __restrict pData, const DWORD dwSize,
 	BYTE * __restrict p = pData;
 	__m128i Cbc = _mm_set_epi32(0, 0, pInitialCbc->dwRight, pInitialCbc->dwLeft);
 
-	// ƒXƒNƒ‰ƒ“ƒuƒ‹‰ğœ‚·‚éƒf[ƒ^‚Ì‚¨‚æ‚»99%‚Í184ƒoƒCƒg
+	// ã‚¹ã‚¯ãƒ©ãƒ³ãƒ–ãƒ«è§£é™¤ã™ã‚‹ãƒ‡ãƒ¼ã‚¿ã®ãŠã‚ˆã99%ã¯184ãƒã‚¤ãƒˆ
 	if (dwSize == 184) {
-		// 192ƒoƒCƒg•ªˆ—‚µ‚Ä‚¢‚é‚ªAƒpƒPƒbƒgƒf[ƒ^‚Í—]•ª‚Éƒƒ‚ƒŠ‚ğŠm•Û‚µ‚Ä‚ ‚é‚Ì‚Å–â‘è‚È‚¢
+		// 192ãƒã‚¤ãƒˆåˆ†å‡¦ç†ã—ã¦ã„ã‚‹ãŒã€ãƒ‘ã‚±ãƒƒãƒˆãƒ‡ãƒ¼ã‚¿ã¯ä½™åˆ†ã«ãƒ¡ãƒ¢ãƒªã‚’ç¢ºä¿ã—ã¦ã‚ã‚‹ã®ã§å•é¡Œãªã„
 
 #ifndef MULTI2_OPTIMIZE_FOR_PIPELINE
 
@@ -441,7 +441,7 @@ void DecodeSSE2(BYTE * __restrict pData, const DWORD dwSize,
 
 #else	// MULTI2_OPTIMIZE_FOR_PIPELINE
 
-		// ƒpƒCƒvƒ‰ƒCƒ“‚Åˆ—‚µ‚â‚·‚¢‚æ‚¤‚É•À—ñ‰»‚µ‚½ƒo[ƒWƒ‡ƒ“
+		// ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã§å‡¦ç†ã—ã‚„ã™ã„ã‚ˆã†ã«ä¸¦åˆ—åŒ–ã—ãŸãƒãƒ¼ã‚¸ãƒ§ãƒ³
 		for (int i = 0; i < 2; i++) {
 			__m128i Src1, Src2, Src3, Src4, Src5, Src6;
 			__m128i Left1, Right1, Left2, Right2, Left3, Right3;
@@ -531,7 +531,7 @@ void DecodeSSE2(BYTE * __restrict pData, const DWORD dwSize,
 		return;
 	}
 
-	// CBCƒ‚[ƒh
+	// CBCãƒ¢ãƒ¼ãƒ‰
 	for (BYTE *pEnd = p + (dwSize & 0xFFFFFFE0UL); p < pEnd; p += 32) {
 		__m128i Src1, Src2, Left, Right;
 
@@ -615,7 +615,7 @@ void DecodeSSE2(BYTE * __restrict pData, const DWORD dwSize,
 		CbcRight = Src2;
 	}
 
-	// OFBƒ‚[ƒh
+	// OFBãƒ¢ãƒ¼ãƒ‰
 	DWORD RemainSize = dwSize & 0x00000007UL;
 	if (RemainSize) {
 		for (int Round = 0 ; Round < SCRAMBLE_ROUND ; Round++) {
@@ -726,9 +726,9 @@ void DecodeSSSE3(BYTE * __restrict pData, const DWORD dwSize,
 	BYTE * __restrict p = pData;
 	__m128i Cbc = ByteSwapSSSE3(_mm_set_epi32(0, 0, pInitialCbc->dwRight, pInitialCbc->dwLeft));
 
-	// ƒXƒNƒ‰ƒ“ƒuƒ‹‰ğœ‚·‚éƒf[ƒ^‚Ì‚¨‚æ‚»99%‚Í184ƒoƒCƒg
+	// ã‚¹ã‚¯ãƒ©ãƒ³ãƒ–ãƒ«è§£é™¤ã™ã‚‹ãƒ‡ãƒ¼ã‚¿ã®ãŠã‚ˆã99%ã¯184ãƒã‚¤ãƒˆ
 	if (dwSize == 184) {
-		// 192ƒoƒCƒg•ªˆ—‚µ‚Ä‚¢‚é‚ªAƒpƒPƒbƒgƒf[ƒ^‚Í—]•ª‚Éƒƒ‚ƒŠ‚ğŠm•Û‚µ‚Ä‚ ‚é‚Ì‚Å–â‘è‚È‚¢
+		// 192ãƒã‚¤ãƒˆåˆ†å‡¦ç†ã—ã¦ã„ã‚‹ãŒã€ãƒ‘ã‚±ãƒƒãƒˆãƒ‡ãƒ¼ã‚¿ã¯ä½™åˆ†ã«ãƒ¡ãƒ¢ãƒªã‚’ç¢ºä¿ã—ã¦ã‚ã‚‹ã®ã§å•é¡Œãªã„
 
 #ifndef MULTI2_OPTIMIZE_FOR_PIPELINE
 
@@ -781,7 +781,7 @@ void DecodeSSSE3(BYTE * __restrict pData, const DWORD dwSize,
 
 #else	// MULTI2_OPTIMIZE_FOR_PIPELINE
 
-		// ƒpƒCƒvƒ‰ƒCƒ“‚Åˆ—‚µ‚â‚·‚¢‚æ‚¤‚É•À—ñ‰»‚µ‚½ƒo[ƒWƒ‡ƒ“
+		// ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã§å‡¦ç†ã—ã‚„ã™ã„ã‚ˆã†ã«ä¸¦åˆ—åŒ–ã—ãŸãƒãƒ¼ã‚¸ãƒ§ãƒ³
 		for (int i = 0; i < 2; i++) {
 			__m128i Src1, Src2, Src3, Src4, Src5, Src6;
 			__m128i Left1, Right1, Left2, Right2, Left3, Right3;
@@ -864,7 +864,7 @@ void DecodeSSSE3(BYTE * __restrict pData, const DWORD dwSize,
 		return;
 	}
 
-	// CBCƒ‚[ƒh
+	// CBCãƒ¢ãƒ¼ãƒ‰
 	for (BYTE *pEnd = p + (dwSize & 0xFFFFFFE0UL); p < pEnd; p += 32) {
 		__m128i Src1, Src2, Left, Right, x, y;
 
@@ -938,7 +938,7 @@ void DecodeSSSE3(BYTE * __restrict pData, const DWORD dwSize,
 		CbcRight = Src2;
 	}
 
-	// OFBƒ‚[ƒh
+	// OFBãƒ¢ãƒ¼ãƒ‰
 	DWORD RemainSize = dwSize & 0x00000007UL;
 	if (RemainSize) {
 		for (int Round = 0 ; Round < SCRAMBLE_ROUND ; Round++) {

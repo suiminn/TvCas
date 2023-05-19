@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "CardReader.h"
 #include "StdUtil.h"
 
@@ -64,7 +64,7 @@ CCardReader *CCardReader::CreateCardReader(ReaderType Type)
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-// •W€ƒXƒ}[ƒgƒJ[ƒhƒŠ[ƒ_[
+// æ¨™æº–ã‚¹ãƒãƒ¼ãƒˆã‚«ãƒ¼ãƒ‰ãƒªãƒ¼ãƒ€ãƒ¼
 //
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -239,10 +239,10 @@ static bool CheckReaderList(LPCTSTR pReaderList, DWORD Length)
 }
 
 
-// ƒT[ƒrƒXAPI—p
+// ã‚µãƒ¼ãƒ“ã‚¹APIç”¨
 #pragma comment(lib, "advapi32.lib")
 
-// ƒXƒ}[ƒgƒJ[ƒhƒT[ƒrƒX‚ª—LŒø‚©’²‚×‚é
+// ã‚¹ãƒãƒ¼ãƒˆã‚«ãƒ¼ãƒ‰ã‚µãƒ¼ãƒ“ã‚¹ãŒæœ‰åŠ¹ã‹èª¿ã¹ã‚‹
 enum SCardCheckResult {
 	SCARD_CHECK_ENABLED,
 	SCARD_CHECK_DISABLED,
@@ -309,7 +309,7 @@ CSCardReader::CSCardReader()
 	if (::SCardEstablishContext(SCARD_SCOPE_USER, NULL, NULL, &m_SCardContext) == SCARD_S_SUCCESS) {
 		m_bIsEstablish = true;
 
-		// ƒJ[ƒhƒŠ[ƒ_‚ğ—ñ‹“‚·‚é
+		// ã‚«ãƒ¼ãƒ‰ãƒªãƒ¼ãƒ€ã‚’åˆ—æŒ™ã™ã‚‹
 		DWORD dwBuffLength = SCARD_AUTOALLOCATE;
 
 		TRACE(TEXT("SCardListReaders\n"));
@@ -348,16 +348,16 @@ CSCardReader::~CSCardReader()
 bool CSCardReader::Open(LPCTSTR pszReader)
 {
 	if (!m_bIsEstablish) {
-		SetError(TEXT("ƒRƒ“ƒeƒLƒXƒg‚ğŠm—§‚Å‚«‚Ü‚¹‚ñB"),
-				 TEXT("Smart Card ƒT[ƒrƒX‚ª—LŒø‚Å‚ ‚é‚©Šm”F‚µ‚Ä‚­‚¾‚³‚¢B"));
+		SetError(TEXT("ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆã‚’ç¢ºç«‹ã§ãã¾ã›ã‚“ã€‚"),
+				 TEXT("Smart Card ã‚µãƒ¼ãƒ“ã‚¹ãŒæœ‰åŠ¹ã§ã‚ã‚‹ã‹ç¢ºèªã—ã¦ãã ã•ã„ã€‚"));
 		return false;
 	}
 
-	// ˆê’UƒNƒ[ƒY‚·‚é
+	// ä¸€æ—¦ã‚¯ãƒ­ãƒ¼ã‚ºã™ã‚‹
 	Close();
 
 	if (pszReader) {
-		// w’è‚³‚ê‚½ƒJ[ƒhƒŠ[ƒ_‚É‘Î‚µ‚ÄƒI[ƒvƒ“‚ğ‚İ‚é
+		// æŒ‡å®šã•ã‚ŒãŸã‚«ãƒ¼ãƒ‰ãƒªãƒ¼ãƒ€ã«å¯¾ã—ã¦ã‚ªãƒ¼ãƒ—ãƒ³ã‚’è©¦ã¿ã‚‹
 		TRACE(TEXT("Open card reader \"%s\"\n"), pszReader);
 
 		LONG Result;
@@ -371,14 +371,14 @@ bool CSCardReader::Open(LPCTSTR pszReader)
 		if (Result != SCARD_S_SUCCESS) {
 			TCHAR szMessage[256];
 			GetSCardErrorMessage(Result, szMessage, _countof(szMessage));
-			SetError(TEXT("ƒJ[ƒhƒŠ[ƒ_‚Ìó‘Ô‚ğæ“¾‚Å‚«‚Ü‚¹‚ñB"), NULL, szMessage);
+			SetError(TEXT("ã‚«ãƒ¼ãƒ‰ãƒªãƒ¼ãƒ€ã®çŠ¶æ…‹ã‚’å–å¾—ã§ãã¾ã›ã‚“ã€‚"), NULL, szMessage);
 			return false;
 		}
 
 		if (!(ReaderState.dwEventState & SCARD_STATE_PRESENT)) {
 			TCHAR szMessage[256];
 			StdUtil::snprintf(szMessage, _countof(szMessage),
-							  TEXT("ƒJ[ƒhƒŠ[ƒ_‚ª—˜—p‚Å‚«‚Ü‚¹‚ñB(State %08x)"),
+							  TEXT("ã‚«ãƒ¼ãƒ‰ãƒªãƒ¼ãƒ€ãŒåˆ©ç”¨ã§ãã¾ã›ã‚“ã€‚(State %08x)"),
 							  ReaderState.dwEventState);
 			SetError(szMessage);
 			return false;
@@ -391,25 +391,25 @@ bool CSCardReader::Open(LPCTSTR pszReader)
 		if (Result != SCARD_S_SUCCESS) {
 			TCHAR szMessage[256];
 			GetSCardErrorMessage(Result, szMessage, _countof(szMessage));
-			SetError(TEXT("ƒJ[ƒhƒŠ[ƒ_‚ÉÚ‘±‚Å‚«‚Ü‚¹‚ñB"), NULL, szMessage);
+			SetError(TEXT("ã‚«ãƒ¼ãƒ‰ãƒªãƒ¼ãƒ€ã«æ¥ç¶šã§ãã¾ã›ã‚“ã€‚"), NULL, szMessage);
 			return false;
 		}
 
 		if (dwActiveProtocol != SCARD_PROTOCOL_T1) {
 			Close();
-			SetError(TEXT("ƒAƒNƒeƒBƒuƒvƒƒgƒRƒ‹‚ª•s³‚Å‚·B"));
+			SetError(TEXT("ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ãƒ—ãƒ­ãƒˆã‚³ãƒ«ãŒä¸æ­£ã§ã™ã€‚"));
 			return false;
 		}
 
 // for SPHD
-		// ‰Šú‰»ƒRƒ}ƒ“ƒh‚ÅƒXƒJƒp[HD—pCASƒJ[ƒh‚©‚Ç‚¤‚©Šm”F
+		// åˆæœŸåŒ–ã‚³ãƒãƒ³ãƒ‰ã§ã‚¹ã‚«ãƒ‘ãƒ¼HDç”¨CASã‚«ãƒ¼ãƒ‰ã‹ã©ã†ã‹ç¢ºèª
 		static const BYTE InitSettingCmd[] = {0x80U, 0x5EU, 0x00U, 0x00U, 0x00U};
 		BYTE tmp[256] ;
 		DWORD RecvSize = sizeof(tmp) ;
 		if ( !Transmit( InitSettingCmd, sizeof(InitSettingCmd), tmp, &RecvSize ) ||
 			RecvSize != 46 ) {
 			Close();
-			SetError(TEXT("ƒXƒJƒp[HD—p‚Å‚Í‚È‚¢ƒJ[ƒh‚Å‚·B"));
+			SetError(TEXT("ã‚¹ã‚«ãƒ‘ãƒ¼HDç”¨ã§ã¯ãªã„ã‚«ãƒ¼ãƒ‰ã§ã™ã€‚"));
 			return false;
 		}
 // for SPHD
@@ -423,7 +423,7 @@ bool CSCardReader::Open(LPCTSTR pszReader)
 			Close();
 			TCHAR szMessage[256];
 			GetSCardErrorMessage(Result, szMessage, _countof(szMessage));
-			SetError(TEXT("ƒJ[ƒh‚Ìó‘Ô‚ğæ“¾‚Å‚«‚Ü‚¹‚ñB"), NULL, szMessage);
+			SetError(TEXT("ã‚«ãƒ¼ãƒ‰ã®çŠ¶æ…‹ã‚’å–å¾—ã§ãã¾ã›ã‚“ã€‚"), NULL, szMessage);
 			return false;
 		}
 		TCHAR szAtr[sizeof(Atr) * 3 + 1];
@@ -435,9 +435,9 @@ bool CSCardReader::Open(LPCTSTR pszReader)
 
 		m_pszReaderName = StdUtil::strdup(pszReader);
 	} else {
-		// ‘S‚Ä‚ÌƒJ[ƒhƒŠ[ƒ_‚É‘Î‚µ‚ÄƒI[ƒvƒ“‚ğ‚İ‚é
+		// å…¨ã¦ã®ã‚«ãƒ¼ãƒ‰ãƒªãƒ¼ãƒ€ã«å¯¾ã—ã¦ã‚ªãƒ¼ãƒ—ãƒ³ã‚’è©¦ã¿ã‚‹
 		if (m_pReaderList == NULL) {
-			SetError(TEXT("ƒJ[ƒhƒŠ[ƒ_‚ªŒ©•t‚©‚è‚Ü‚¹‚ñB"));
+			SetError(TEXT("ã‚«ãƒ¼ãƒ‰ãƒªãƒ¼ãƒ€ãŒè¦‹ä»˜ã‹ã‚Šã¾ã›ã‚“ã€‚"));
 			return false;
 		}
 
@@ -531,18 +531,18 @@ bool CSCardReader::CheckAvailability(bool *pbAvailable, LPTSTR pszMessage, int M
 	switch (CheckSmartCardService()) {
 	case SCARD_CHECK_ENABLED:
 		if (pszMessage)
-			::lstrcpyn(pszMessage, TEXT("Smart Card ƒT[ƒrƒX‚Í—LŒø‚Å‚·B"), MaxLength);
+			::lstrcpyn(pszMessage, TEXT("Smart Card ã‚µãƒ¼ãƒ“ã‚¹ã¯æœ‰åŠ¹ã§ã™ã€‚"), MaxLength);
 		bAvailable = true;
 		break;
 
 	case SCARD_CHECK_DISABLED:
 		if (pszMessage)
-			::lstrcpyn(pszMessage, TEXT("Smart Card ƒT[ƒrƒX‚ª–³Œø‚É‚È‚Á‚Ä‚¢‚Ü‚·B"), MaxLength);
+			::lstrcpyn(pszMessage, TEXT("Smart Card ã‚µãƒ¼ãƒ“ã‚¹ãŒç„¡åŠ¹ã«ãªã£ã¦ã„ã¾ã™ã€‚"), MaxLength);
 		break;
 
 	case SCARD_CHECK_ERR_SERVICE_NOT_FOUND:
 		if (pszMessage)
-			::lstrcpyn(pszMessage, TEXT("Smart Card ƒT[ƒrƒX‚ªƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB"), MaxLength);
+			::lstrcpyn(pszMessage, TEXT("Smart Card ã‚µãƒ¼ãƒ“ã‚¹ãŒã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã•ã‚Œã¦ã„ã¾ã›ã‚“ã€‚"), MaxLength);
 		break;
 
 	default:
@@ -558,7 +558,7 @@ bool CSCardReader::CheckAvailability(bool *pbAvailable, LPTSTR pszMessage, int M
 bool CSCardReader::Transmit(const void *pSendData, DWORD SendSize, void *pRecvData, DWORD *pRecvSize)
 {
 	if (!m_hSCard) {
-		SetError(TEXT("ƒJ[ƒhƒŠ[ƒ_‚ªŠJ‚©‚ê‚Ä‚¢‚Ü‚¹‚ñB"));
+		SetError(TEXT("ã‚«ãƒ¼ãƒ‰ãƒªãƒ¼ãƒ€ãŒé–‹ã‹ã‚Œã¦ã„ã¾ã›ã‚“ã€‚"));
 		return false;
 	}
 
@@ -568,7 +568,7 @@ bool CSCardReader::Transmit(const void *pSendData, DWORD SendSize, void *pRecvDa
 	if (Result != SCARD_S_SUCCESS) {
 		TCHAR szMessage[256];
 		GetSCardErrorMessage(Result,szMessage, _countof(szMessage));
-		SetError(TEXT("ƒRƒ}ƒ“ƒh‘—MƒGƒ‰[‚Å‚·B"), NULL, szMessage);
+		SetError(TEXT("ã‚³ãƒãƒ³ãƒ‰é€ä¿¡ã‚¨ãƒ©ãƒ¼ã§ã™ã€‚"), NULL, szMessage);
 		return false;
 	}
 
@@ -584,7 +584,7 @@ bool CSCardReader::Transmit(const void *pSendData, DWORD SendSize, void *pRecvDa
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-// winscard.dllŒİŠ·ƒJ[ƒhƒŠ[ƒ_[(“®“IƒŠƒ“ƒN)
+// winscard.dlläº’æ›ã‚«ãƒ¼ãƒ‰ãƒªãƒ¼ãƒ€ãƒ¼(å‹•çš„ãƒªãƒ³ã‚¯)
 //
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -625,7 +625,7 @@ bool CDynamicSCardReader::Load(LPCTSTR pszFileName)
 {
 	m_hLib = ::LoadLibrary(pszFileName);
 	if (m_hLib == NULL) {
-		SetError(TEXT("ƒ‰ƒCƒuƒ‰ƒŠ‚ğƒ[ƒh‚Å‚«‚Ü‚¹‚ñB"));
+		SetError(TEXT("ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã‚’ãƒ­ãƒ¼ãƒ‰ã§ãã¾ã›ã‚“ã€‚"));
 		return false;
 	}
 
@@ -642,18 +642,18 @@ bool CDynamicSCardReader::Load(LPCTSTR pszFileName)
 	 || !GetLibraryFunc(m_hLib, m_pSCardTransmit, "SCardTransmit")) {
 		::FreeLibrary(m_hLib);
 		m_hLib = NULL;
-		SetError(TEXT("ŠÖ”‚ÌƒAƒhƒŒƒX‚ğæ“¾‚Å‚«‚Ü‚¹‚ñB"));
+		SetError(TEXT("é–¢æ•°ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’å–å¾—ã§ãã¾ã›ã‚“ã€‚"));
 		return false;
 	}
 
 	if (pEstablishContext(SCARD_SCOPE_USER, NULL, NULL, &m_SCardContext) != SCARD_S_SUCCESS) {
 		::FreeLibrary(m_hLib);
 		m_hLib = NULL;
-		SetError(TEXT("ƒRƒ“ƒeƒLƒXƒg‚ğŠm—§‚Å‚«‚Ü‚¹‚ñB"));
+		SetError(TEXT("ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆã‚’ç¢ºç«‹ã§ãã¾ã›ã‚“ã€‚"));
 		return false;
 	}
 
-	// ƒJ[ƒhƒŠ[ƒ_‚ğ—ñ‹“‚·‚é
+	// ã‚«ãƒ¼ãƒ‰ãƒªãƒ¼ãƒ€ã‚’åˆ—æŒ™ã™ã‚‹
 	DWORD dwBuffLength = 0;
 
 	if (pListReaders(m_SCardContext, NULL, NULL, &dwBuffLength) == SCARD_S_SUCCESS) {
@@ -661,7 +661,7 @@ bool CDynamicSCardReader::Load(LPCTSTR pszFileName)
 		if (pListReaders(m_SCardContext, NULL, m_pReaderList, &dwBuffLength) == SCARD_S_SUCCESS) {
 			if (!CheckReaderList(m_pReaderList, dwBuffLength)) {
 				Unload();
-				SetError(TEXT("ƒJ[ƒhƒŠ[ƒ_‚ÌƒŠƒXƒg‚ª•s³‚Å‚·B"));
+				SetError(TEXT("ã‚«ãƒ¼ãƒ‰ãƒªãƒ¼ãƒ€ã®ãƒªã‚¹ãƒˆãŒä¸æ­£ã§ã™ã€‚"));
 				return false;
 			}
 		} else {
@@ -692,11 +692,11 @@ void CDynamicSCardReader::Unload()
 }
 
 
-// "ƒtƒ@ƒCƒ‹–¼|ƒŠ[ƒ_–¼" ‚ÌŒ`®‚Åw’è‚·‚é
+// "ãƒ•ã‚¡ã‚¤ãƒ«å|ãƒªãƒ¼ãƒ€å" ã®å½¢å¼ã§æŒ‡å®šã™ã‚‹
 bool CDynamicSCardReader::Open(LPCTSTR pszReader)
 {
 	if (pszReader == NULL) {
-		SetError(TEXT("ƒtƒ@ƒCƒ‹–¼‚ªw’è‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB"));
+		SetError(TEXT("ãƒ•ã‚¡ã‚¤ãƒ«åãŒæŒ‡å®šã•ã‚Œã¦ã„ã¾ã›ã‚“ã€‚"));
 		return false;
 	}
 
@@ -710,13 +710,13 @@ bool CDynamicSCardReader::Open(LPCTSTR pszReader)
 	if (pszReaderName != NULL) {
 		size_t FileNameLength = pszReaderName - pszReader;
 		if (FileNameLength > _countof(szFileName)) {
-			SetError(TEXT("ƒtƒ@ƒCƒ‹–¼‚ª’·‰ß‚¬‚Ü‚·B"));
+			SetError(TEXT("ãƒ•ã‚¡ã‚¤ãƒ«åãŒé•·éãã¾ã™ã€‚"));
 			return false;
 		}
 		::lstrcpyn(szFileName, pszReader, (int)FileNameLength);
 	} else {
 		if (::lstrlen(pszReader) >= _countof(szFileName)) {
-			SetError(TEXT("ƒtƒ@ƒCƒ‹–¼‚ª’·‰ß‚¬‚Ü‚·B"));
+			SetError(TEXT("ãƒ•ã‚¡ã‚¤ãƒ«åãŒé•·éãã¾ã™ã€‚"));
 			return false;
 		}
 		::lstrcpy(szFileName, pszReader);
@@ -725,12 +725,12 @@ bool CDynamicSCardReader::Open(LPCTSTR pszReader)
 		if (!Load(szFileName))
 			return false;
 	} else {
-		// ˆê’UƒNƒ[ƒY‚·‚é
+		// ä¸€æ—¦ã‚¯ãƒ­ãƒ¼ã‚ºã™ã‚‹
 		Close();
 	}
 
 	if (pszReaderName) {
-		// w’è‚³‚ê‚½ƒJ[ƒhƒŠ[ƒ_‚É‘Î‚µ‚ÄƒI[ƒvƒ“‚ğ‚İ‚é
+		// æŒ‡å®šã•ã‚ŒãŸã‚«ãƒ¼ãƒ‰ãƒªãƒ¼ãƒ€ã«å¯¾ã—ã¦ã‚ªãƒ¼ãƒ—ãƒ³ã‚’è©¦ã¿ã‚‹
 		LONG Result;
 		DWORD dwActiveProtocol = SCARD_PROTOCOL_UNDEFINED;
 
@@ -738,21 +738,21 @@ bool CDynamicSCardReader::Open(LPCTSTR pszReader)
 		if (Result != SCARD_S_SUCCESS) {
 			TCHAR szMessage[256];
 			GetSCardErrorMessage(Result, szMessage, _countof(szMessage));
-			SetError(TEXT("ƒJ[ƒhƒŠ[ƒ_‚ÉÚ‘±‚Å‚«‚Ü‚¹‚ñB"), NULL, szMessage);
+			SetError(TEXT("ã‚«ãƒ¼ãƒ‰ãƒªãƒ¼ãƒ€ã«æ¥ç¶šã§ãã¾ã›ã‚“ã€‚"), NULL, szMessage);
 			return false;
 		}
 
 		if (dwActiveProtocol != SCARD_PROTOCOL_T1) {
 			Close();
-			SetError(TEXT("ƒAƒNƒeƒBƒuƒvƒƒgƒRƒ‹‚ª•s³‚Å‚·B"));
+			SetError(TEXT("ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ãƒ—ãƒ­ãƒˆã‚³ãƒ«ãŒä¸æ­£ã§ã™ã€‚"));
 			return false;
 		}
 
 		m_pszReaderName = StdUtil::strdup(pszReader);
 	} else {
-		// ‘S‚Ä‚ÌƒJ[ƒhƒŠ[ƒ_‚É‘Î‚µ‚ÄƒI[ƒvƒ“‚ğ‚İ‚é
+		// å…¨ã¦ã®ã‚«ãƒ¼ãƒ‰ãƒªãƒ¼ãƒ€ã«å¯¾ã—ã¦ã‚ªãƒ¼ãƒ—ãƒ³ã‚’è©¦ã¿ã‚‹
 		if (m_pReaderList == NULL || m_pReaderList[0] == _T('\0')) {
-			SetError(TEXT("ƒJ[ƒhƒŠ[ƒ_‚ªŒ©•t‚©‚è‚Ü‚¹‚ñB"));
+			SetError(TEXT("ã‚«ãƒ¼ãƒ‰ãƒªãƒ¼ãƒ€ãŒè¦‹ä»˜ã‹ã‚Šã¾ã›ã‚“ã€‚"));
 			return false;
 		}
 
@@ -842,7 +842,7 @@ bool CDynamicSCardReader::CheckAvailability(bool *pbAvailable, LPTSTR pszMessage
 bool CDynamicSCardReader::Transmit(const void *pSendData,DWORD SendSize,void *pRecvData,DWORD *pRecvSize)
 {
 	if (!m_hSCard) {
-		SetError(TEXT("ƒJ[ƒhƒŠ[ƒ_‚ªŠJ‚©‚ê‚Ä‚¢‚Ü‚¹‚ñB"));
+		SetError(TEXT("ã‚«ãƒ¼ãƒ‰ãƒªãƒ¼ãƒ€ãŒé–‹ã‹ã‚Œã¦ã„ã¾ã›ã‚“ã€‚"));
 		return false;
 	}
 
@@ -852,7 +852,7 @@ bool CDynamicSCardReader::Transmit(const void *pSendData,DWORD SendSize,void *pR
 	if (Result != SCARD_S_SUCCESS) {
 		TCHAR szMessage[256];
 		GetSCardErrorMessage(Result, szMessage, _countof(szMessage));
-		SetError(TEXT("ƒRƒ}ƒ“ƒh‘—MƒGƒ‰[‚Å‚·B"), NULL, szMessage);
+		SetError(TEXT("ã‚³ãƒãƒ³ãƒ‰é€ä¿¡ã‚¨ãƒ©ãƒ¼ã§ã™ã€‚"), NULL, szMessage);
 		return false;
 	}
 
@@ -908,7 +908,7 @@ bool CBonCasClientCardReader::Load(LPCTSTR pszFileName)
 {
 	m_hLib = ::LoadLibrary(pszFileName);
 	if (m_hLib == NULL) {
-		SetError(TEXT("ƒ‰ƒCƒuƒ‰ƒŠ‚ğ“Ç‚İ‚ß‚Ü‚¹‚ñB"));
+		SetError(TEXT("ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã‚’èª­ã¿è¾¼ã‚ã¾ã›ã‚“ã€‚"));
 		return false;
 	}
 
@@ -925,18 +925,18 @@ bool CBonCasClientCardReader::Load(LPCTSTR pszFileName)
 	 || !GetLibraryFunc(m_hLib, m_pCasLinkTransmit, "CasLinkTransmit")) {
 		::FreeLibrary(m_hLib);
 		m_hLib = NULL;
-		SetError(TEXT("ŠÖ”‚ÌƒAƒhƒŒƒX‚ğæ“¾‚Å‚«‚Ü‚¹‚ñB"));
+		SetError(TEXT("é–¢æ•°ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’å–å¾—ã§ãã¾ã›ã‚“ã€‚"));
 		return false;
 	}
 
 	if (pEstablishContext(SCARD_SCOPE_USER, NULL, NULL, &m_SCardContext) != SCARD_S_SUCCESS) {
 		::FreeLibrary(m_hLib);
 		m_hLib = NULL;
-		SetError(TEXT("ƒRƒ“ƒeƒLƒXƒg‚ğŠm—§‚Å‚«‚Ü‚¹‚ñB"));
+		SetError(TEXT("ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆã‚’ç¢ºç«‹ã§ãã¾ã›ã‚“ã€‚"));
 		return false;
 	}
 
-	// ƒJ[ƒhƒŠ[ƒ_‚ğ—ñ‹“‚·‚é
+	// ã‚«ãƒ¼ãƒ‰ãƒªãƒ¼ãƒ€ã‚’åˆ—æŒ™ã™ã‚‹
 	DWORD dwBuffLength = 0;
 
 	if (pListReaders(m_SCardContext, NULL, NULL , &dwBuffLength) == SCARD_S_SUCCESS) {
@@ -944,7 +944,7 @@ bool CBonCasClientCardReader::Load(LPCTSTR pszFileName)
 		if (pListReaders(m_SCardContext, NULL, m_pReaderList, &dwBuffLength) == SCARD_S_SUCCESS) {
 			if (!CheckReaderList(m_pReaderList, dwBuffLength)) {
 				Close();
-				SetError(TEXT("ƒJ[ƒhƒŠ[ƒ_‚ÌƒŠƒXƒg‚ª•s³‚Å‚·B"));
+				SetError(TEXT("ã‚«ãƒ¼ãƒ‰ãƒªãƒ¼ãƒ€ã®ãƒªã‚¹ãƒˆãŒä¸æ­£ã§ã™ã€‚"));
 				return false;
 			}
 		} else {
@@ -966,12 +966,12 @@ bool CBonCasClientCardReader::Connect(LPCTSTR pszReader)
 	if (Result != SCARD_S_SUCCESS) {
 		TCHAR szMessage[256];
 		GetSCardErrorMessage(Result, szMessage, _countof(szMessage));
-		SetError(TEXT("ƒJ[ƒhƒŠ[ƒ_‚ÉÚ‘±‚Å‚«‚Ü‚¹‚ñB"), NULL, szMessage);
+		SetError(TEXT("ã‚«ãƒ¼ãƒ‰ãƒªãƒ¼ãƒ€ã«æ¥ç¶šã§ãã¾ã›ã‚“ã€‚"), NULL, szMessage);
 		return false;
 	}
 
 	if (dwActiveProtocol != SCARD_PROTOCOL_T1) {
-		SetError(TEXT("ƒAƒNƒeƒBƒuƒvƒƒgƒRƒ‹‚ª•s³‚Å‚·B"));
+		SetError(TEXT("ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ãƒ—ãƒ­ãƒˆã‚³ãƒ«ãŒä¸æ­£ã§ã™ã€‚"));
 		return false;
 	}
 
@@ -981,26 +981,26 @@ bool CBonCasClientCardReader::Connect(LPCTSTR pszReader)
 
 bool CBonCasClientCardReader::Open(LPCTSTR pszReader)
 {
-	// ˆê’UƒNƒ[ƒY‚·‚é
+	// ä¸€æ—¦ã‚¯ãƒ­ãƒ¼ã‚ºã™ã‚‹
 	Close();
 
-	// ƒ‰ƒCƒuƒ‰ƒŠ“Ç‚İ‚İ
+	// ãƒ©ã‚¤ãƒ–ãƒ©ãƒªèª­ã¿è¾¼ã¿
 	TCHAR szFileName[MAX_PATH];
 	GetModulePath(szFileName);
 	if (!Load(szFileName))
 		return false;
 
 	if (pszReader) {
-		// w’è‚³‚ê‚½ƒJ[ƒhƒŠ[ƒ_‚É‘Î‚µ‚ÄÚ‘±‚ğ‚İ‚é
+		// æŒ‡å®šã•ã‚ŒãŸã‚«ãƒ¼ãƒ‰ãƒªãƒ¼ãƒ€ã«å¯¾ã—ã¦æ¥ç¶šã‚’è©¦ã¿ã‚‹
 		if (!Connect(pszReader)) {
 			Close();
 			return false;
 		}
 	} else {
-		// ‘S‚Ä‚ÌƒJ[ƒhƒŠ[ƒ_‚É‘Î‚µ‚ÄÚ‘±‚ğ‚İ‚é
+		// å…¨ã¦ã®ã‚«ãƒ¼ãƒ‰ãƒªãƒ¼ãƒ€ã«å¯¾ã—ã¦æ¥ç¶šã‚’è©¦ã¿ã‚‹
 		if (m_pReaderList == NULL || m_pReaderList[0] == _T('\0')) {
 			Close();
-			SetError(TEXT("ƒJ[ƒhƒŠ[ƒ_‚ªŒ©•t‚©‚è‚Ü‚¹‚ñB"));
+			SetError(TEXT("ã‚«ãƒ¼ãƒ‰ãƒªãƒ¼ãƒ€ãŒè¦‹ä»˜ã‹ã‚Šã¾ã›ã‚“ã€‚"));
 			return false;
 		}
 
@@ -1109,9 +1109,9 @@ bool CBonCasClientCardReader::CheckAvailability(bool *pbAvailable, LPTSTR pszMes
 
 	if (pszMessage) {
 		if (bAvailable) {
-			::lstrcpyn(pszMessage, BONCASCLIENT_MODULE_NAME TEXT(" ‚ªŒ©•t‚©‚è‚Ü‚µ‚½B"), MaxLength);
+			::lstrcpyn(pszMessage, BONCASCLIENT_MODULE_NAME TEXT(" ãŒè¦‹ä»˜ã‹ã‚Šã¾ã—ãŸã€‚"), MaxLength);
 		} else {
-			::lstrcpyn(pszMessage, BONCASCLIENT_MODULE_NAME TEXT(" ‚ªŒ©•t‚©‚è‚Ü‚¹‚ñB"), MaxLength);
+			::lstrcpyn(pszMessage, BONCASCLIENT_MODULE_NAME TEXT(" ãŒè¦‹ä»˜ã‹ã‚Šã¾ã›ã‚“ã€‚"), MaxLength);
 		}
 	}
 
@@ -1122,7 +1122,7 @@ bool CBonCasClientCardReader::CheckAvailability(bool *pbAvailable, LPTSTR pszMes
 bool CBonCasClientCardReader::Transmit(const void *pSendData,DWORD SendSize,void *pRecvData,DWORD *pRecvSize)
 {
 	if (!m_hSCard) {
-		SetError(TEXT("ƒJ[ƒhƒŠ[ƒ_‚ªŠJ‚©‚ê‚Ä‚¢‚Ü‚¹‚ñB"));
+		SetError(TEXT("ã‚«ãƒ¼ãƒ‰ãƒªãƒ¼ãƒ€ãŒé–‹ã‹ã‚Œã¦ã„ã¾ã›ã‚“ã€‚"));
 		return false;
 	}
 
@@ -1132,7 +1132,7 @@ bool CBonCasClientCardReader::Transmit(const void *pSendData,DWORD SendSize,void
 	if (Result != SCARD_S_SUCCESS) {
 		TCHAR szMessage[256];
 		GetSCardErrorMessage(Result, szMessage, _countof(szMessage));
-		SetError(TEXT("ƒRƒ}ƒ“ƒh‘—MƒGƒ‰[‚Å‚·B"), NULL, szMessage);
+		SetError(TEXT("ã‚³ãƒãƒ³ãƒ‰é€ä¿¡ã‚¨ãƒ©ãƒ¼ã§ã™ã€‚"), NULL, szMessage);
 		return false;
 	}
 

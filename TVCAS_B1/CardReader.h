@@ -1,4 +1,4 @@
-#ifndef CARD_READER_H
+ï»¿#ifndef CARD_READER_H
 #define CARD_READER_H
 
 #define CARDREADER_SCARD_DYNAMIC_SUPPORT
@@ -8,7 +8,7 @@
 #include "BonBaseClass.h"
 
 
-// ƒJ[ƒhƒŠ[ƒ_[Šî’êƒNƒ‰ƒX
+// ã‚«ãƒ¼ãƒ‰ãƒªãƒ¼ãƒ€ãƒ¼åŸºåº•ã‚¯ãƒ©ã‚¹
 class __declspec(novtable) CCardReader : public CBonBaseClass
 {
 public:
@@ -44,7 +44,7 @@ private:
 	ReaderType m_ReaderType;
 };
 
-// ƒXƒ}[ƒgƒJ[ƒhƒŠ[ƒ_[
+// ã‚¹ãƒãƒ¼ãƒˆã‚«ãƒ¼ãƒ‰ãƒªãƒ¼ãƒ€ãƒ¼
 class CSCardReader : public CCardReader
 {
 	SCARDCONTEXT m_SCardContext;

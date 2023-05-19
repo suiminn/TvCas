@@ -1,18 +1,18 @@
-#ifndef TVCAS_B25_H
+﻿#ifndef TVCAS_B25_H
 #define TVCAS_B25_H
 
 
 /*
-	���ς���ꍇ�A�ȉ��̏����ɏ]���Ă��������B
+	改変する場合、以下の条件に従ってください。
 
-	�E�t�@�C�������I���W�i���ƈقȂ���̂ɂ��邱�ƁB
-	�E���쌠�\�L�����������邱�ƁB
+	・ファイル名をオリジナルと異なるものにすること。
+	・著作権表記を書き換えること。
 
-	ReadMe.txt ���ǂ�ł��������B
+	ReadMe.txt も読んでください。
 */
 
 #define TVCAS_MODULE_NAME				"B25"
-#define TVCAS_MODULE_COPYRIGHT			"2sen + Logue"
+#define TVCAS_MODULE_COPYRIGHT			"2sen"
 #define TVCAS_MODULE_ORIGINAL_FILE_NAME	"B25.tvcas"
 #define TVCAS_MODULE_VERSION			"0.9.1"
 

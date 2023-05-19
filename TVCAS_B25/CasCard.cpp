@@ -1,4 +1,4 @@
-// CasCard.cpp: CCasCard ƒNƒ‰ƒX‚ÌƒCƒ“ƒvƒŠƒƒ“ƒe[ƒVƒ‡ƒ“
+ï»¿// CasCard.cpp: CCasCard ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ãƒ—ãƒªãƒ¡ãƒ³ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -13,12 +13,12 @@ static char THIS_FILE[]=__FILE__;
 #endif
 
 
-// ƒŒƒXƒ|ƒ“ƒXŽóMƒoƒbƒtƒ@ƒTƒCƒY
+// ãƒ¬ã‚¹ãƒãƒ³ã‚¹å—ä¿¡ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º
 #define RECEIVE_BUFFER_SIZE 1024
 
-#define CARD_NOT_OPEN_ERROR_TEXT	TEXT("ƒJ[ƒhƒŠ[ƒ_‚ªŠJ‚©‚ê‚Ä‚¢‚Ü‚¹‚ñB")
-#define BAD_ARGUMENT_ERROR_TEXT		TEXT("ˆø”‚ª•s³‚Å‚·B")
-#define ECM_REFUSED_ERROR_TEXT		TEXT("ECM‚ªŽó‚¯•t‚¯‚ç‚ê‚Ü‚¹‚ñB")
+#define CARD_NOT_OPEN_ERROR_TEXT	TEXT("ã‚«ãƒ¼ãƒ‰ãƒªãƒ¼ãƒ€ãŒé–‹ã‹ã‚Œã¦ã„ã¾ã›ã‚“ã€‚")
+#define BAD_ARGUMENT_ERROR_TEXT		TEXT("å¼•æ•°ãŒä¸æ­£ã§ã™ã€‚")
+#define ECM_REFUSED_ERROR_TEXT		TEXT("ECMãŒå—ã‘ä»˜ã‘ã‚‰ã‚Œã¾ã›ã‚“ã€‚")
 
 
 inline WORD GetReturnCode(const BYTE *pRecvData)
@@ -32,7 +32,7 @@ inline WORD GetReturnCode(const BYTE *pRecvData)
 CCasCard::CCasCard()
 	: m_pCardReader(NULL)
 {
-	// “à•”ó‘Ô‰Šú‰»
+	// å†…éƒ¨çŠ¶æ…‹åˆæœŸåŒ–
 	::ZeroMemory(&m_CasCardInfo, sizeof(m_CasCardInfo));
 	::ZeroMemory(&m_EcmStatus, sizeof(m_EcmStatus));
 }
@@ -46,7 +46,7 @@ CCasCard::~CCasCard()
 
 const DWORD CCasCard::GetCardReaderNum(void) const
 {
-	// ƒJ[ƒhƒŠ[ƒ_[”‚ð•Ô‚·
+	// ã‚«ãƒ¼ãƒ‰ãƒªãƒ¼ãƒ€ãƒ¼æ•°ã‚’è¿”ã™
 	if (m_pCardReader)
 		return m_pCardReader->NumReaders();
 	return 0;
@@ -63,23 +63,23 @@ LPCTSTR CCasCard::EnumCardReader(const DWORD dwIndex) const
 
 const bool CCasCard::OpenCard(CCardReader::ReaderType ReaderType, LPCTSTR lpszReader)
 {
-	// ˆê’UƒNƒ[ƒY‚·‚é
+	// ä¸€æ—¦ã‚¯ãƒ­ãƒ¼ã‚ºã™ã‚‹
 	CloseCard();
 
 	m_pCardReader = CCardReader::CreateCardReader(ReaderType);
 	if (m_pCardReader == NULL) {
-		SetError(ERR_CARDOPENERROR, TEXT("ƒJ[ƒhƒŠ[ƒ_‚Ìƒ^ƒCƒv‚ª–³Œø‚Å‚·B"));
+		SetError(ERR_CARDOPENERROR, TEXT("ã‚«ãƒ¼ãƒ‰ãƒªãƒ¼ãƒ€ã®ã‚¿ã‚¤ãƒ—ãŒç„¡åŠ¹ã§ã™ã€‚"));
 		return false;
 	}
 
 	bool bSuccess = false;
 
 	if (lpszReader || m_pCardReader->NumReaders() <= 1) {
-		// Žw’è‚³‚ê‚½ƒŠ[ƒ_[‚ðŠJ‚­
+		// æŒ‡å®šã•ã‚ŒãŸãƒªãƒ¼ãƒ€ãƒ¼ã‚’é–‹ã
 		if (OpenAndInitialize(lpszReader))
 			bSuccess = true;
 	} else {
-		// —˜—p‰Â”\‚ÈƒŠ[ƒ_[‚ð’T‚µ‚ÄŠJ‚­
+		// åˆ©ç”¨å¯èƒ½ãªãƒªãƒ¼ãƒ€ãƒ¼ã‚’æŽ¢ã—ã¦é–‹ã
 		LPCTSTR pszReaderName;
 
 		for (int i = 0; (pszReaderName = m_pCardReader->EnumReader(i)) != NULL; i++) {
@@ -104,7 +104,7 @@ const bool CCasCard::OpenCard(CCardReader::ReaderType ReaderType, LPCTSTR lpszRe
 
 void CCasCard::CloseCard(void)
 {
-	// ƒJ[ƒh‚ðƒNƒ[ƒY‚·‚é
+	// ã‚«ãƒ¼ãƒ‰ã‚’ã‚¯ãƒ­ãƒ¼ã‚ºã™ã‚‹
 	if (m_pCardReader) {
 		m_pCardReader->Close();
 		delete m_pCardReader;
@@ -158,7 +158,7 @@ const bool CCasCard::OpenAndInitialize(LPCTSTR pszReader)
 		return false;
 	}
 
-	// ƒJ[ƒh‰Šú‰»(Ž¸”s‚µ‚½‚çƒŠƒgƒ‰ƒC‚µ‚Ä‚Ý‚é)
+	// ã‚«ãƒ¼ãƒ‰åˆæœŸåŒ–(å¤±æ•—ã—ãŸã‚‰ãƒªãƒˆãƒ©ã‚¤ã—ã¦ã¿ã‚‹)
 	if (!InitialSetting() && !InitialSetting()) {
 		m_pCardReader->Close();
 		return false;
@@ -170,7 +170,7 @@ const bool CCasCard::OpenAndInitialize(LPCTSTR pszReader)
 
 const bool CCasCard::InitialSetting(void)
 {
-	// uInitial Setting Conditions Commandv‚ðˆ—‚·‚é
+	// ã€ŒInitial Setting Conditions Commandã€ã‚’å‡¦ç†ã™ã‚‹
 	/*
 	if (!m_pCardReader) {
 		SetError(ERR_CARDNOTOPEN, CARD_NOT_OPEN_ERROR_TEXT);
@@ -178,11 +178,11 @@ const bool CCasCard::InitialSetting(void)
 	}
 	*/
 
-	// ƒoƒbƒtƒ@€”õ
+	// ãƒãƒƒãƒ•ã‚¡æº–å‚™
 	DWORD dwRecvSize;
 	BYTE RecvData[RECEIVE_BUFFER_SIZE];
 
-	// ‰ŠúÝ’èðŒƒRƒ}ƒ“ƒh‘—M
+	// åˆæœŸè¨­å®šæ¡ä»¶ã‚³ãƒžãƒ³ãƒ‰é€ä¿¡
 	static const BYTE InitSettingCmd[] = {0x90U, 0x30U, 0x00U, 0x00U, 0x00U};
 	::ZeroMemory(RecvData, sizeof(RecvData));
 	dwRecvSize = sizeof(RecvData);
@@ -193,11 +193,11 @@ const bool CCasCard::InitialSetting(void)
 	}
 
 	if (dwRecvSize < 57UL) {
-		SetError(ERR_TRANSMITERROR, TEXT("ŽóMƒf[ƒ^‚ÌƒTƒCƒY‚ª•s³‚Å‚·B"));
+		SetError(ERR_TRANSMITERROR, TEXT("å—ä¿¡ãƒ‡ãƒ¼ã‚¿ã®ã‚µã‚¤ã‚ºãŒä¸æ­£ã§ã™ã€‚"));
 		return false;
 	}
 
-	// ƒŒƒXƒ|ƒ“ƒX‰ðÍ
+	// ãƒ¬ã‚¹ãƒãƒ³ã‚¹è§£æž
 	m_CasCardInfo.CASystemID = ((WORD)RecvData[6] << 8) | (WORD)RecvData[7];
 	::CopyMemory(m_CasCardInfo.CardID, &RecvData[8], 6);		// +8	Card ID
 	m_CasCardInfo.CardType = RecvData[14];
@@ -206,11 +206,11 @@ const bool CCasCard::InitialSetting(void)
 	::CopyMemory(m_CasCardInfo.InitialCbc, &RecvData[48], 8);	// +48	Descrambler CBC initial value
 
 	if (::memcmp(m_CasCardInfo.CardID, "\0\0\0\0\0", 6) == 0) {
-		SetError(ERR_TRANSMITERROR, TEXT("ƒJ[ƒhID‚ª•s³‚Å‚·B"));
+		SetError(ERR_TRANSMITERROR, TEXT("ã‚«ãƒ¼ãƒ‰IDãŒä¸æ­£ã§ã™ã€‚"));
 		return false;
 	}
 
-	// ƒJ[ƒhIDî•ñŽæ“¾ƒRƒ}ƒ“ƒh‘—M
+	// ã‚«ãƒ¼ãƒ‰IDæƒ…å ±å–å¾—ã‚³ãƒžãƒ³ãƒ‰é€ä¿¡
 	static const BYTE CardIDInfoCmd[] = {0x90, 0x32, 0x00, 0x00, 0x00};
 	::ZeroMemory(RecvData, sizeof(RecvData));
 	dwRecvSize = sizeof(RecvData);
@@ -221,7 +221,7 @@ const bool CCasCard::InitialSetting(void)
 	}
 
 	if (dwRecvSize < 19) {
-		SetError(ERR_TRANSMITERROR, TEXT("ŽóMƒf[ƒ^‚ÌƒTƒCƒY‚ª•s³‚Å‚·B"));
+		SetError(ERR_TRANSMITERROR, TEXT("å—ä¿¡ãƒ‡ãƒ¼ã‚¿ã®ã‚µã‚¤ã‚ºãŒä¸æ­£ã§ã™ã€‚"));
 		return false;
 	}
 
@@ -230,11 +230,11 @@ const bool CCasCard::InitialSetting(void)
 	m_CasCardInfo.CheckCode = ((WORD)RecvData[15] << 8) | (WORD)RecvData[16];
 
 	if (::memcmp(&RecvData[9], "\0\0\0\0\0", 6) == 0) {
-		SetError(ERR_TRANSMITERROR, TEXT("ƒJ[ƒhID‚ª•s³‚Å‚·B"));
+		SetError(ERR_TRANSMITERROR, TEXT("ã‚«ãƒ¼ãƒ‰IDãŒä¸æ­£ã§ã™ã€‚"));
 		return false;
 	}
 
-	// ECMƒXƒe[ƒ^ƒX‰Šú‰»
+	// ECMã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹åˆæœŸåŒ–
 	::ZeroMemory(&m_EcmStatus, sizeof(m_EcmStatus));
 
 	return true;
@@ -283,7 +283,7 @@ const bool CCasCard::GetCASystemID(WORD *pID) const
 
 const BYTE * CCasCard::GetCardID(void) const
 {
-	// Card ID ‚ð•Ô‚·
+	// Card ID ã‚’è¿”ã™
 	if (!m_pCardReader) {
 		//SetError(ERR_CARDNOTOPEN, CARD_NOT_OPEN_ERROR_TEXT);
 		return NULL;
@@ -316,7 +316,7 @@ const BYTE CCasCard::GetMessagePartitionLength(void) const
 
 const BYTE * CCasCard::GetInitialCbc(void) const
 {
-	// Descrambler CBC Initial Value ‚ð•Ô‚·
+	// Descrambler CBC Initial Value ã‚’è¿”ã™
 	if (!m_pCardReader) {
 		//SetError(ERR_CARDNOTOPEN, CARD_NOT_OPEN_ERROR_TEXT);
 		return NULL;
@@ -330,7 +330,7 @@ const BYTE * CCasCard::GetInitialCbc(void) const
 
 const BYTE * CCasCard::GetSystemKey(void) const
 {
-	// Descrambling System Key ‚ð•Ô‚·
+	// Descrambling System Key ã‚’è¿”ã™
 	if (!m_pCardReader) {
 		//SetError(ERR_CARDNOTOPEN, CARD_NOT_OPEN_ERROR_TEXT);
 		return NULL;
@@ -381,22 +381,22 @@ const int CCasCard::FormatCardID(LPTSTR pszText, int MaxLength) const
 
 const BYTE * CCasCard::GetKsFromEcm(const BYTE *pEcmData, const DWORD dwEcmSize)
 {
-	// uECM Receive Commandv‚ðˆ—‚·‚é
+	// ã€ŒECM Receive Commandã€ã‚’å‡¦ç†ã™ã‚‹
 	if (!m_pCardReader) {
 		SetError(ERR_CARDNOTOPEN, CARD_NOT_OPEN_ERROR_TEXT);
 		return NULL;
 	}
 
-	// ECMƒTƒCƒY‚ðƒ`ƒFƒbƒN
+	// ECMã‚µã‚¤ã‚ºã‚’ãƒã‚§ãƒƒã‚¯
 	if (!pEcmData || (dwEcmSize < MIN_ECM_DATA_SIZE) || (dwEcmSize > MAX_ECM_DATA_SIZE)) {
 		SetError(ERR_BADARGUMENT, BAD_ARGUMENT_ERROR_TEXT);
 		return NULL;
 	}
 
-	// ƒLƒƒƒbƒVƒ…‚ðƒ`ƒFƒbƒN‚·‚é
+	// ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹
 	if (m_EcmStatus.dwLastEcmSize == dwEcmSize
 			&& ::memcmp(m_EcmStatus.LastEcmData, pEcmData, dwEcmSize) == 0) {
-		// ECM‚ª“¯ˆê‚Ìê‡‚ÍƒLƒƒƒbƒVƒ…Ï‚ÝKs‚ð•Ô‚·
+		// ECMãŒåŒä¸€ã®å ´åˆã¯ã‚­ãƒ£ãƒƒã‚·ãƒ¥æ¸ˆã¿Ksã‚’è¿”ã™
 		if (m_EcmStatus.bSucceeded) {
 			ClearError();
 			return m_EcmStatus.KsData;
@@ -406,19 +406,19 @@ const BYTE * CCasCard::GetKsFromEcm(const BYTE *pEcmData, const DWORD dwEcmSize)
 		}
 	}
 
-	// ƒoƒbƒtƒ@€”õ
+	// ãƒãƒƒãƒ•ã‚¡æº–å‚™
 	static const BYTE EcmReceiveCmd[] = {0x90, 0x34, 0x00, 0x00};
 	BYTE SendData[MAX_ECM_DATA_SIZE + 6];
 	BYTE RecvData[RECEIVE_BUFFER_SIZE];
 	::ZeroMemory(RecvData, sizeof(RecvData));
 
-	// ƒRƒ}ƒ“ƒh\’z
+	// ã‚³ãƒžãƒ³ãƒ‰æ§‹ç¯‰
 	::CopyMemory(SendData, EcmReceiveCmd, sizeof(EcmReceiveCmd));				// CLA, INS, P1, P2
 	SendData[sizeof(EcmReceiveCmd)] = (BYTE)dwEcmSize;							// COMMAND DATA LENGTH
 	::CopyMemory(&SendData[sizeof(EcmReceiveCmd) + 1], pEcmData, dwEcmSize);	// ECM
 	SendData[sizeof(EcmReceiveCmd) + dwEcmSize + 1] = 0x00U;					// RESPONSE DATA LENGTH
 
-	// ƒRƒ}ƒ“ƒh‘—M
+	// ã‚³ãƒžãƒ³ãƒ‰é€ä¿¡
 	DWORD dwRecvSize = sizeof(RecvData);
 	if (!m_pCardReader->Transmit(SendData, sizeof(EcmReceiveCmd) + dwEcmSize + 2UL, RecvData, &dwRecvSize)){
 		::ZeroMemory(&m_EcmStatus, sizeof(m_EcmStatus));
@@ -426,21 +426,21 @@ const BYTE * CCasCard::GetKsFromEcm(const BYTE *pEcmData, const DWORD dwEcmSize)
 		return NULL;
 	}
 
-	// ƒTƒCƒYƒ`ƒFƒbƒN
+	// ã‚µã‚¤ã‚ºãƒã‚§ãƒƒã‚¯
 	if (dwRecvSize != 25UL) {
 		::ZeroMemory(&m_EcmStatus, sizeof(m_EcmStatus));
-		SetError(ERR_TRANSMITERROR, TEXT("ECM‚ÌƒŒƒXƒ|ƒ“ƒXƒTƒCƒY‚ª•s³‚Å‚·B"));
+		SetError(ERR_TRANSMITERROR, TEXT("ECMã®ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚µã‚¤ã‚ºãŒä¸æ­£ã§ã™ã€‚"));
 		return NULL;
 	}
 
-	// ECMƒf[ƒ^‚ð•Û‘¶‚·‚é
+	// ECMãƒ‡ãƒ¼ã‚¿ã‚’ä¿å­˜ã™ã‚‹
 	m_EcmStatus.dwLastEcmSize = dwEcmSize;
 	::CopyMemory(m_EcmStatus.LastEcmData, pEcmData, dwEcmSize);
 
-	// ƒŒƒXƒ|ƒ“ƒX‰ðÍ
+	// ãƒ¬ã‚¹ãƒãƒ³ã‚¹è§£æž
 	::CopyMemory(m_EcmStatus.KsData, &RecvData[6], sizeof(m_EcmStatus.KsData));
 
-	// ƒŠƒ^[ƒ“ƒR[ƒh‰ðÍ
+	// ãƒªã‚¿ãƒ¼ãƒ³ã‚³ãƒ¼ãƒ‰è§£æž
 	switch (GetReturnCode(RecvData)) {
 	// Purchased: Viewing
 	case 0x0200U :	// Payment-deferred PPV
@@ -453,7 +453,7 @@ const BYTE * CCasCard::GetKsFromEcm(const BYTE *pEcmData, const DWORD dwEcmSize)
 		m_EcmStatus.bSucceeded = true;
 		return m_EcmStatus.KsData;
 	}
-	// ã‹LˆÈŠO(Ž‹’®•s‰Â)
+	// ä¸Šè¨˜ä»¥å¤–(è¦–è´ä¸å¯)
 
 	m_EcmStatus.bSucceeded = false;
 	SetError(ERR_ECMREFUSED, ECM_REFUSED_ERROR_TEXT);
@@ -464,7 +464,7 @@ const BYTE * CCasCard::GetKsFromEcm(const BYTE *pEcmData, const DWORD dwEcmSize)
 
 const bool CCasCard::SendEmmSection(const BYTE *pEmmData, const DWORD dwEmmSize)
 {
-	// uEMM Receive Commandv‚ðˆ—‚·‚é
+	// ã€ŒEMM Receive Commandã€ã‚’å‡¦ç†ã™ã‚‹
 	if (!m_pCardReader) {
 		SetError(ERR_CARDNOTOPEN, CARD_NOT_OPEN_ERROR_TEXT);
 		return false;
@@ -493,27 +493,27 @@ const bool CCasCard::SendEmmSection(const BYTE *pEmmData, const DWORD dwEmmSize)
 	}
 
 	if (RecvSize != 8UL) {
-		SetError(ERR_TRANSMITERROR, TEXT("EMM‚ÌƒŒƒXƒ|ƒ“ƒXƒTƒCƒY‚ª•s³‚Å‚·B"));
+		SetError(ERR_TRANSMITERROR, TEXT("EMMã®ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚µã‚¤ã‚ºãŒä¸æ­£ã§ã™ã€‚"));
 		return false;
 	}
 
 	const WORD ReturnCode = GetReturnCode(RecvData);
 	TRACE(TEXT(" -> Return Code %04x\n"), ReturnCode);
 	switch (ReturnCode) {
-	case 0x2100U :	// ³íI—¹
+	case 0x2100U :	// æ­£å¸¸çµ‚äº†
 		ClearError();
 		return true;
 
-	case 0xA102U :	// ”ñ‰^—p(‰^—pŠOƒvƒƒgƒRƒ‹”Ô†)
-		SetError(ERR_EMMERROR, TEXT("ƒvƒƒgƒRƒ‹”Ô†‚ª‰^—pŠO‚Å‚·B"));
+	case 0xA102U :	// éžé‹ç”¨(é‹ç”¨å¤–ãƒ—ãƒ­ãƒˆã‚³ãƒ«ç•ªå·)
+		SetError(ERR_EMMERROR, TEXT("ãƒ—ãƒ­ãƒˆã‚³ãƒ«ç•ªå·ãŒé‹ç”¨å¤–ã§ã™ã€‚"));
 		break;
 
-	case 0xA107U :	// ƒZƒLƒ…ƒŠƒeƒBƒGƒ‰[(EMM‰ü‚´‚ñƒGƒ‰[)
-		SetError(ERR_EMMERROR, TEXT("ƒZƒLƒ…ƒŠƒeƒBƒGƒ‰[‚Å‚·B"));
+	case 0xA107U :	// ã‚»ã‚­ãƒ¥ãƒªãƒ†ã‚£ã‚¨ãƒ©ãƒ¼(EMMæ”¹ã–ã‚“ã‚¨ãƒ©ãƒ¼)
+		SetError(ERR_EMMERROR, TEXT("ã‚»ã‚­ãƒ¥ãƒªãƒ†ã‚£ã‚¨ãƒ©ãƒ¼ã§ã™ã€‚"));
 		break;
 
 	default:
-		SetError(ERR_EMMERROR, TEXT("EMM‚ªŽó‚¯•t‚¯‚ç‚ê‚Ü‚¹‚ñB"));
+		SetError(ERR_EMMERROR, TEXT("EMMãŒå—ã‘ä»˜ã‘ã‚‰ã‚Œã¾ã›ã‚“ã€‚"));
 		break;
 	}
 
@@ -523,7 +523,7 @@ const bool CCasCard::SendEmmSection(const BYTE *pEmmData, const DWORD dwEmmSize)
 
 const bool CCasCard::ConfirmContract(const BYTE *pVerificationData, const DWORD DataSize, const WORD Date)
 {
-	// uContract Confirmation Commandv‚ðˆ—‚·‚é
+	// ã€ŒContract Confirmation Commandã€ã‚’å‡¦ç†ã™ã‚‹
 	if (!m_pCardReader) {
 		SetError(ERR_CARDNOTOPEN, CARD_NOT_OPEN_ERROR_TEXT);
 		return false;
@@ -554,53 +554,53 @@ const bool CCasCard::ConfirmContract(const BYTE *pVerificationData, const DWORD 
 	}
 
 	if (RecvSize != 20UL) {
-		SetError(ERR_TRANSMITERROR, TEXT("Œ_–ñŠm”F‚ÌƒŒƒXƒ|ƒ“ƒXƒTƒCƒY‚ª•s³‚Å‚·B"));
+		SetError(ERR_TRANSMITERROR, TEXT("å¥‘ç´„ç¢ºèªã®ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚µã‚¤ã‚ºãŒä¸æ­£ã§ã™ã€‚"));
 		return false;
 	}
 
 	const WORD ReturnCode = GetReturnCode(RecvData);
 	TRACE(TEXT(" -> Return Code %04x\n"), ReturnCode);
 	switch (ReturnCode) {
-	// w“üÏ
-	case 0x0800:	// ƒeƒBƒA
-	case 0x0400:	// ‘O•¥‚¢PPV
-	case 0x0200:	// Œã•¥‚¢PPV
+	// è³¼å…¥æ¸ˆ
+	case 0x0800:	// ãƒ†ã‚£ã‚¢
+	case 0x0400:	// å‰æ‰•ã„PPV
+	case 0x0200:	// å¾Œæ‰•ã„PPV
 		ClearError();
 		return true;
 
-	case 0x8901:	// ”ñŒ_–ñ:Œ_–ñŠO(ƒeƒBƒA)
-	case 0x8501:	// ”ñŒ_–ñ:Œ_–ñŠO(‘O•¥‚¢PPV)
-	case 0x8301:	// ”ñŒ_–ñ:Œ_–ñŠO(Œã•¥‚¢PPV)
-	case 0x8902:	// ”ñŒ_–ñ:ŠúŒÀØ‚ê(ƒeƒBƒA)
-	case 0x8502:	// ”ñŒ_–ñ:ŠúŒÀØ‚ê(‘O•¥‚¢PPV)
-	case 0x8302:	// ”ñŒ_–ñ:ŠúŒÀØ‚ê(Œã•¥‚¢PPV)
-	case 0x8903:	// ”ñŒ_–ñ:Ž‹’®§ŒÀ(ƒeƒBƒA)
-	case 0x8503:	// ”ñŒ_–ñ:Ž‹’®§ŒÀ(‘O•¥‚¢PPV)
-	case 0x8303:	// ”ñŒ_–ñ:Ž‹’®§ŒÀ(Œã•¥‚¢PPV)
-	case 0xA103:	// ”ñŒ_–ñ(Kw‚È‚µ)
-		SetError(ERR_UNCONTRACTED, TEXT("Œ_–ñ‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB"));
+	case 0x8901:	// éžå¥‘ç´„:å¥‘ç´„å¤–(ãƒ†ã‚£ã‚¢)
+	case 0x8501:	// éžå¥‘ç´„:å¥‘ç´„å¤–(å‰æ‰•ã„PPV)
+	case 0x8301:	// éžå¥‘ç´„:å¥‘ç´„å¤–(å¾Œæ‰•ã„PPV)
+	case 0x8902:	// éžå¥‘ç´„:æœŸé™åˆ‡ã‚Œ(ãƒ†ã‚£ã‚¢)
+	case 0x8502:	// éžå¥‘ç´„:æœŸé™åˆ‡ã‚Œ(å‰æ‰•ã„PPV)
+	case 0x8302:	// éžå¥‘ç´„:æœŸé™åˆ‡ã‚Œ(å¾Œæ‰•ã„PPV)
+	case 0x8903:	// éžå¥‘ç´„:è¦–è´åˆ¶é™(ãƒ†ã‚£ã‚¢)
+	case 0x8503:	// éžå¥‘ç´„:è¦–è´åˆ¶é™(å‰æ‰•ã„PPV)
+	case 0x8303:	// éžå¥‘ç´„:è¦–è´åˆ¶é™(å¾Œæ‰•ã„PPV)
+	case 0xA103:	// éžå¥‘ç´„(Kwãªã—)
+		SetError(ERR_UNCONTRACTED, TEXT("å¥‘ç´„ã•ã‚Œã¦ã„ã¾ã›ã‚“ã€‚"));
 		break;
 
-	case 0x8500:	// w“ü‰Â(‘O•¥‚¢PPV)
-	case 0x8300:	// w“ü‰Â(Œã•¥‚¢PPV)
-		SetError(ERR_PURCHASEAVAIL, TEXT("w“ü‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB"));
+	case 0x8500:	// è³¼å…¥å¯(å‰æ‰•ã„PPV)
+	case 0x8300:	// è³¼å…¥å¯(å¾Œæ‰•ã„PPV)
+		SetError(ERR_PURCHASEAVAIL, TEXT("è³¼å…¥ã•ã‚Œã¦ã„ã¾ã›ã‚“ã€‚"));
 		break;
 
-	case 0x8109:	// w“ü‹‘”Û(Ž‹’®—š—ðƒƒ‚ƒŠ–ž”t)
-	case 0x850F:	// w“ü‹‘”Û(‘O•¥‚¢Žc‹à•s‘«)
-		SetError(ERR_PURCHASEREFUSED, TEXT("w“ü‚Å‚«‚Ü‚¹‚ñB"));
+	case 0x8109:	// è³¼å…¥æ‹’å¦(è¦–è´å±¥æ­´ãƒ¡ãƒ¢ãƒªæº€æ¯)
+	case 0x850F:	// è³¼å…¥æ‹’å¦(å‰æ‰•ã„æ®‹é‡‘ä¸è¶³)
+		SetError(ERR_PURCHASEREFUSED, TEXT("è³¼å…¥ã§ãã¾ã›ã‚“ã€‚"));
 		break;
 
-	case 0xA102:	// ”ñ‰^—pƒJ[ƒh(‰^—pŠOƒvƒƒgƒRƒ‹”Ô†)
-		SetError(ERR_NONOPERATIONAL, TEXT("ƒvƒƒgƒRƒ‹”Ô†‚ª‰^—pŠO‚Å‚·B"));
+	case 0xA102:	// éžé‹ç”¨ã‚«ãƒ¼ãƒ‰(é‹ç”¨å¤–ãƒ—ãƒ­ãƒˆã‚³ãƒ«ç•ªå·)
+		SetError(ERR_NONOPERATIONAL, TEXT("ãƒ—ãƒ­ãƒˆã‚³ãƒ«ç•ªå·ãŒé‹ç”¨å¤–ã§ã™ã€‚"));
 		break;
 
-	case 0xA104:	// ƒZƒLƒ…ƒŠƒeƒBƒGƒ‰[(Œ_–ñŠm”Fî•ñ‰ü‚´‚ñƒGƒ‰[)
-		SetError(ERR_SECURITY, TEXT("ƒZƒLƒ…ƒŠƒeƒBƒGƒ‰[‚Å‚·B"));
+	case 0xA104:	// ã‚»ã‚­ãƒ¥ãƒªãƒ†ã‚£ã‚¨ãƒ©ãƒ¼(å¥‘ç´„ç¢ºèªæƒ…å ±æ”¹ã–ã‚“ã‚¨ãƒ©ãƒ¼)
+		SetError(ERR_SECURITY, TEXT("ã‚»ã‚­ãƒ¥ãƒªãƒ†ã‚£ã‚¨ãƒ©ãƒ¼ã§ã™ã€‚"));
 		break;
 
 	default:
-		SetError(ERR_UNKNOWNCODE, TEXT("•s–¾‚ÈƒŠƒ^[ƒ“ƒR[ƒh‚Å‚·B"));
+		SetError(ERR_UNKNOWNCODE, TEXT("ä¸æ˜Žãªãƒªã‚¿ãƒ¼ãƒ³ã‚³ãƒ¼ãƒ‰ã§ã™ã€‚"));
 		break;
 	}
 

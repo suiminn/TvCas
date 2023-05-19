@@ -1,21 +1,21 @@
-// Multi2Decoder.h: CMulti2Decoder �N���X�̃C���^�[�t�F�C�X
+﻿// Multi2Decoder.h: CMulti2Decoder クラスのインターフェイス
 //
 //////////////////////////////////////////////////////////////////////
 
 #pragma once
 
 
-#define MULTI2_USE_INTRINSIC	// �g�ݍ��݊֐��𗘗p
-#define MULTI2_SIMD				// SIMD�Ή�
+#define MULTI2_USE_INTRINSIC	// 組み込み関数を利用
+#define MULTI2_SIMD				// SIMD対応
 
 #ifdef MULTI2_SIMD
 /*
-	ICC���g�p���Ȃ��ꍇ�́AMULTI2_SIMD_ICC���`���Ȃ��悤�ɂ���
-	(������20%���炢�x���Ȃ�)
+	ICCを使用しない場合は、MULTI2_SIMD_ICCを定義しないようにする
+	(ただし20%ぐらい遅くなる)
 */
-#define MULTI2_SSE2				// SSE2�Ή�
-#define MULTI2_SSSE3			// SSSE3�Ή�
-#define MULTI2_SIMD_ICC			// Intel C++ Compiler �𗘗p����
+#define MULTI2_SSE2				// SSE2対応
+#define MULTI2_SSSE3			// SSSE3対応
+#define MULTI2_SIMD_ICC			// Intel C++ Compiler を利用する
 
 namespace Multi2DecoderSIMD {
 	struct WORKKEY;

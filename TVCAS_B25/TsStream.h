@@ -1,4 +1,4 @@
-// TsStream.h: TSƒXƒgƒŠ[ƒ€ƒ‰ƒbƒp[ƒNƒ‰ƒX‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX
+ï»¿// TsStream.h: TSã‚¹ãƒˆãƒªãƒ¼ãƒ ãƒ©ãƒƒãƒ‘ãƒ¼ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -10,10 +10,10 @@
 
 
 /////////////////////////////////////////////////////////////////////////////
-// TSƒpƒPƒbƒg’ŠÛ‰»ƒNƒ‰ƒX
+// TSãƒ‘ã‚±ãƒƒãƒˆæŠ½è±¡åŒ–ã‚¯ãƒ©ã‚¹
 /////////////////////////////////////////////////////////////////////////////
 
-#define TS_PACKETSIZE	(188U)	// TSƒpƒPƒbƒgƒTƒCƒY
+#define TS_PACKETSIZE	(188U)	// TSãƒ‘ã‚±ãƒƒãƒˆã‚µã‚¤ã‚º
 
 class CTsPacket : public CMediaData
 {
@@ -24,12 +24,12 @@ public:
 	CTsPacket & operator = (const CTsPacket &Operand);
 	~CTsPacket();
 
-	enum	// ParsePacket() ƒGƒ‰[ƒR[ƒh
+	enum	// ParsePacket() ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰
 	{
-		EC_VALID		= 0x00000000UL,		// ³íƒpƒPƒbƒg
-		EC_FORMAT		= 0x00000001UL,		// ƒtƒH[ƒ}ƒbƒgƒGƒ‰[
-		EC_TRANSPORT	= 0x00000002UL,		// ƒgƒ‰ƒ“ƒXƒ|[ƒgƒGƒ‰[(ƒrƒbƒgƒGƒ‰[)
-		EC_CONTINUITY	= 0x00000003UL		// ˜A‘±«ƒJƒEƒ“ƒ^ƒGƒ‰[(ƒhƒƒbƒv)
+		EC_VALID		= 0x00000000UL,		// æ­£å¸¸ãƒ‘ã‚±ãƒƒãƒˆ
+		EC_FORMAT		= 0x00000001UL,		// ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã‚¨ãƒ©ãƒ¼
+		EC_TRANSPORT	= 0x00000002UL,		// ãƒˆãƒ©ãƒ³ã‚¹ãƒãƒ¼ãƒˆã‚¨ãƒ©ãƒ¼(ãƒ“ãƒƒãƒˆã‚¨ãƒ©ãƒ¼)
+		EC_CONTINUITY	= 0x00000003UL		// é€£ç¶šæ€§ã‚«ã‚¦ãƒ³ã‚¿ã‚¨ãƒ©ãƒ¼(ãƒ‰ãƒ­ãƒƒãƒ—)
 	};
 	DWORD ParsePacket(BYTE *pContinuityCounter = NULL);
 
@@ -63,8 +63,8 @@ public:
 		bool bSplicingPointFlag;			// Splicing Point Flag
 		bool bTransportPrivateDataFlag;		// Transport Private Data Flag
 		bool bAdaptationFieldExtFlag;		// Adaptation Field Extension Flag
-		const BYTE *pOptionData;			// ƒIƒvƒVƒ‡ƒ“ƒtƒB[ƒ‹ƒhƒf[ƒ^
-		BYTE byOptionSize;					// ƒIƒvƒVƒ‡ƒ“ƒtƒB[ƒ‹ƒh’·
+		const BYTE *pOptionData;			// ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ãƒ‡ãƒ¼ã‚¿
+		BYTE byOptionSize;					// ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰é•·
 	} m_AdaptationField;
 
 	enum { BUFFER_SIZE=TS_PACKETSIZE+sizeof(TAG_TSPACKETHEADER)+sizeof(TAG_ADAPTFIELDHEADER) };
@@ -80,7 +80,7 @@ private:
 
 
 /////////////////////////////////////////////////////////////////////////////
-// PSIƒZƒNƒVƒ‡ƒ“’ŠÛ‰»ƒNƒ‰ƒX
+// PSIã‚»ã‚¯ã‚·ãƒ§ãƒ³æŠ½è±¡åŒ–ã‚¯ãƒ©ã‚¹
 /////////////////////////////////////////////////////////////////////////////
 
 class CPsiSection : public CMediaData
@@ -112,22 +112,22 @@ public:
 
 protected:
 	struct TAG_PSIHEADER {
-		BYTE byTableID;						// ƒe[ƒuƒ‹ID
-		bool bSectionSyntaxIndicator;		// ƒZƒNƒVƒ‡ƒ“ƒVƒ“ƒ^ƒbƒNƒXƒCƒ“ƒWƒP[ƒ^
-		bool bPrivateIndicator;				// ƒvƒ‰ƒCƒx[ƒgƒCƒ“ƒWƒP[ƒ^
-		WORD wSectionLength;				// ƒZƒNƒVƒ‡ƒ“’·
+		BYTE byTableID;						// ãƒ†ãƒ¼ãƒ–ãƒ«ID
+		bool bSectionSyntaxIndicator;		// ã‚»ã‚¯ã‚·ãƒ§ãƒ³ã‚·ãƒ³ã‚¿ãƒƒã‚¯ã‚¹ã‚¤ãƒ³ã‚¸ã‚±ãƒ¼ã‚¿
+		bool bPrivateIndicator;				// ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆã‚¤ãƒ³ã‚¸ã‚±ãƒ¼ã‚¿
+		WORD wSectionLength;				// ã‚»ã‚¯ã‚·ãƒ§ãƒ³é•·
 
-		WORD wTableIdExtension;				// ƒe[ƒuƒ‹IDŠg’£
-		BYTE byVersionNo;					// ƒo[ƒWƒ‡ƒ“”Ô†
-		bool bCurrentNextIndicator;			// ƒJƒŒƒ“ƒgƒlƒNƒXƒgƒCƒ“ƒWƒP[ƒ^
-		BYTE bySectionNumber;				// ƒZƒNƒVƒ‡ƒ“”Ô†
-		BYTE byLastSectionNumber;			// ƒ‰ƒXƒgƒZƒNƒVƒ‡ƒ“”Ô†
+		WORD wTableIdExtension;				// ãƒ†ãƒ¼ãƒ–ãƒ«IDæ‹¡å¼µ
+		BYTE byVersionNo;					// ãƒãƒ¼ã‚¸ãƒ§ãƒ³ç•ªå·
+		bool bCurrentNextIndicator;			// ã‚«ãƒ¬ãƒ³ãƒˆãƒã‚¯ã‚¹ãƒˆã‚¤ãƒ³ã‚¸ã‚±ãƒ¼ã‚¿
+		BYTE bySectionNumber;				// ã‚»ã‚¯ã‚·ãƒ§ãƒ³ç•ªå·
+		BYTE byLastSectionNumber;			// ãƒ©ã‚¹ãƒˆã‚»ã‚¯ã‚·ãƒ§ãƒ³ç•ªå·
 	} m_Header;
 };
 
 
 /////////////////////////////////////////////////////////////////////////////
-// TS PIDƒ}ƒbƒv‘ÎÛƒNƒ‰ƒX
+// TS PIDãƒãƒƒãƒ—å¯¾è±¡ã‚¯ãƒ©ã‚¹
 /////////////////////////////////////////////////////////////////////////////
 
 class ABSTRACT_CLASS_DECL CTsPidMapTarget
@@ -141,7 +141,7 @@ public:
 
 
 /////////////////////////////////////////////////////////////////////////////
-// TS PIDƒ}ƒbƒvŠÇ—ƒNƒ‰ƒX
+// TS PIDãƒãƒƒãƒ—ç®¡ç†ã‚¯ãƒ©ã‚¹
 /////////////////////////////////////////////////////////////////////////////
 
 class CTsPidMapManager
@@ -175,7 +175,7 @@ protected:
 
 
 /////////////////////////////////////////////////////////////////////////////
-// PSIƒZƒNƒVƒ‡ƒ“’ŠoƒNƒ‰ƒX
+// PSIã‚»ã‚¯ã‚·ãƒ§ãƒ³æŠ½å‡ºã‚¯ãƒ©ã‚¹
 /////////////////////////////////////////////////////////////////////////////
 
 class CPsiSectionParser
@@ -213,7 +213,7 @@ private:
 
 
 /////////////////////////////////////////////////////////////////////////////
-// PCR’ŠÛ‰»ƒNƒ‰ƒX
+// PCRæŠ½è±¡åŒ–ã‚¯ãƒ©ã‚¹
 /////////////////////////////////////////////////////////////////////////////
 
 class CTsClockRef

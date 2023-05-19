@@ -1,6 +1,6 @@
-// stdafx.h : •W€‚ÌƒVƒXƒeƒ€ ƒCƒ“ƒNƒ‹[ƒh ƒtƒ@ƒCƒ‹‚ÌƒCƒ“ƒNƒ‹[ƒh ƒtƒ@ƒCƒ‹A‚Ü‚½‚Í
-// QÆ‰ñ”‚ª‘½‚­A‚©‚Â‚ ‚Ü‚è•ÏX‚³‚ê‚È‚¢AƒvƒƒWƒFƒNƒgê—p‚ÌƒCƒ“ƒNƒ‹[ƒh ƒtƒ@ƒCƒ‹
-// ‚ğ‹Lq‚µ‚Ü‚·B
+ï»¿// stdafx.h : æ¨™æº–ã®ã‚·ã‚¹ãƒ†ãƒ  ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ ãƒ•ã‚¡ã‚¤ãƒ«ã®ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ ãƒ•ã‚¡ã‚¤ãƒ«ã€ã¾ãŸã¯
+// å‚ç…§å›æ•°ãŒå¤šãã€ã‹ã¤ã‚ã¾ã‚Šå¤‰æ›´ã•ã‚Œãªã„ã€ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆå°‚ç”¨ã®ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ ãƒ•ã‚¡ã‚¤ãƒ«
+// ã‚’è¨˜è¿°ã—ã¾ã™ã€‚
 
 #pragma once
 
@@ -16,7 +16,7 @@
 #define _WIN32_IE 0x0600	// Internet Explorer 6.0
 #endif
 
-// Winsock2 ‚Æƒwƒbƒ_‚ªŠ±Â‚µ‚È‚¢‚æ‚¤‚É‚·‚é
+// Winsock2 ã¨ãƒ˜ãƒƒãƒ€ãŒå¹²æ¸‰ã—ãªã„ã‚ˆã†ã«ã™ã‚‹
 #define _WINSOCKAPI_
 
 #define _WIN32_DCOM	// for CoInitializeEx()
@@ -43,13 +43,13 @@
 #undef _WINSOCKAPI_
 
 
-// Œx‚Ì–³Œøİ’è
-#pragma warning(disable: 4355) // warning C4355: "'this' : ƒx[ƒX ƒƒ“ƒo‰Šú‰»ƒŠƒXƒg‚Åg—p‚³‚ê‚Ü‚µ‚½B"
-#pragma warning(disable: 4995) // warning C4995: –¼‘O‚ª”ğ‚¯‚ç‚ê‚½ #pragma ‚Æ‚µ‚Ä‹Lq‚³‚ê‚Ä‚¢‚Ü‚·B
+// è­¦å‘Šã®ç„¡åŠ¹è¨­å®š
+#pragma warning(disable: 4355) // warning C4355: "'this' : ãƒ™ãƒ¼ã‚¹ ãƒ¡ãƒ³ãƒåˆæœŸåŒ–ãƒªã‚¹ãƒˆã§ä½¿ç”¨ã•ã‚Œã¾ã—ãŸã€‚"
+#pragma warning(disable: 4995) // warning C4995: åå‰ãŒé¿ã‘ã‚‰ã‚ŒãŸ #pragma ã¨ã—ã¦è¨˜è¿°ã•ã‚Œã¦ã„ã¾ã™ã€‚
 #pragma warning(disable: 4996) // warning C4996: "This function or variable may be unsafe."
 
 
-// ƒ‰ƒCƒuƒ‰ƒŠ‚ÌƒŠƒ“ƒN
+// ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã®ãƒªãƒ³ã‚¯
 #pragma comment(lib, "Kernel32.lib")
 #pragma comment(lib, "User32.lib")
 #pragma comment(lib, "Shell32.lib")
@@ -58,7 +58,7 @@
 #pragma comment(lib, "Winmm.lib")
 #pragma comment(lib, "ShLwApi.lib")
 
-// ƒgƒŒ[ƒXo—Í
+// ãƒˆãƒ¬ãƒ¼ã‚¹å‡ºåŠ›
 #ifdef _DEBUG
 	#undef TRACE
 	#define TRACE ::DebugTrace
@@ -71,7 +71,7 @@
 	#define _SECURE_SCL 0
 #endif
 
-// ƒRƒ“ƒpƒCƒ‰•Êİ’è
+// ã‚³ãƒ³ãƒ‘ã‚¤ãƒ©åˆ¥è¨­å®š
 #if _MSC_VER < 1400
 	#define __restrict
 #endif
@@ -82,19 +82,19 @@
 #else
 	#define nullptr NULL
 	#ifndef _WIN64
-	#define WINDOWS2000_SUPPORT	// Windows 2000 ‘Î‰
+	#define WINDOWS2000_SUPPORT	// Windows 2000 å¯¾å¿œ
 	#endif
 #endif
 
 
-// BonTsEngine ‚Ìİ’è
+// BonTsEngine ã®è¨­å®š
 #ifdef TVH264
 	#ifndef TVH264_FOR_HD
-	#define BONTSENGINE_1SEG_SUPPORT	// ƒƒ“ƒZƒO‘Î‰
-	#define BONTSENGINE_RADIO_SUPPORT	// ‰¹º•ú‘—‘Î‰
+	#define BONTSENGINE_1SEG_SUPPORT	// ãƒ¯ãƒ³ã‚»ã‚°å¯¾å¿œ
+	#define BONTSENGINE_RADIO_SUPPORT	// éŸ³å£°æ”¾é€å¯¾å¿œ
 	#endif
-	#define BONTSENGINE_H264_SUPPORT	// H.264 ‘Î‰
+	#define BONTSENGINE_H264_SUPPORT	// H.264 å¯¾å¿œ
 #else	// TVH264
-	#define BONTSENGINE_MPEG2_SUPPORT	// MPEG-2 ‘Î‰
-	#define BONTSENGINE_RADIO_SUPPORT	// ‰¹º•ú‘—‘Î‰
+	#define BONTSENGINE_MPEG2_SUPPORT	// MPEG-2 å¯¾å¿œ
+	#define BONTSENGINE_RADIO_SUPPORT	// éŸ³å£°æ”¾é€å¯¾å¿œ
 #endif

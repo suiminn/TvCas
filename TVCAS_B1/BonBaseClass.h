@@ -1,4 +1,4 @@
-#ifndef BON_BASE_CLASS_H
+﻿#ifndef BON_BASE_CLASS_H
 #define BON_BASE_CLASS_H
 
 

@@ -1,4 +1,4 @@
-// TsDescrambler.cpp: CTsDescrambler ƒNƒ‰ƒX‚ÌƒCƒ“ƒvƒŠƒƒ“ƒe[ƒVƒ‡ƒ“
+ï»¿// TsDescrambler.cpp: CTsDescrambler ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ãƒ—ãƒªãƒ¡ãƒ³ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -17,7 +17,7 @@ static char THIS_FILE[]=__FILE__;
 #pragma intrinsic(memcmp)
 
 
-// EMMˆ—‚ğs‚¤ŠúŠÔ
+// EMMå‡¦ç†ã‚’è¡Œã†æœŸé–“
 #define EMM_PROCESS_TIME	(7 * 24)
 
 #if EMMLOG
@@ -25,7 +25,7 @@ static char THIS_FILE[]=__FILE__;
 #define LOGNAME		"Emmlog.txt"
 #endif
 
-// ECMˆ—“à•”ƒNƒ‰ƒX
+// ECMå‡¦ç†å†…éƒ¨ã‚¯ãƒ©ã‚¹
 class CEcmProcessor
 	: public CPsiSingleTable
 	, public CDynamicReferenceable
@@ -70,7 +70,7 @@ private:
 	static bool m_bCardReaderHung;
 };
 
-// EMMˆ—“à•”ƒNƒ‰ƒX
+// EMMå‡¦ç†å†…éƒ¨ã‚¯ãƒ©ã‚¹
 class CEmmProcessor
 	: public CPsiStreamTable
 	, public CDynamicReferenceable
@@ -93,7 +93,7 @@ private:
 #endif
 };
 
-// ESƒXƒNƒ‰ƒ“ƒuƒ‹‰ğœ“à•”ƒNƒ‰ƒX
+// ESã‚¹ã‚¯ãƒ©ãƒ³ãƒ–ãƒ«è§£é™¤å†…éƒ¨ã‚¯ãƒ©ã‚¹
 class CTsDescrambler::CEsProcessor : public CTsPidMapTarget
 {
 public:
@@ -138,7 +138,7 @@ class CEcmAccess : public CCasAccess
 	CEcmProcessor *m_pEcmProcessor;
 	CLocalEvent *m_pEvent;
 
-	// ƒRƒs[‹Ö~
+	// ã‚³ãƒ”ãƒ¼ç¦æ­¢
 	CEcmAccess(const CEcmAccess &Src);
 	CEcmAccess &operator=(const CEcmAccess &Src);
 
@@ -170,7 +170,7 @@ class CEmmAccess : public CCasAccess
 	DWORD m_EmmSize;
 	CEmmProcessor *m_pEmmProcessor;
 
-	// ƒRƒs[‹Ö~
+	// ã‚³ãƒ”ãƒ¼ç¦æ­¢
 	CEmmAccess(const CEmmAccess &Src);
 	CEmmAccess &operator=(const CEmmAccess &Src);
 
@@ -269,7 +269,7 @@ public:
 
 
 //////////////////////////////////////////////////////////////////////
-// CTsDescrambler \’z/Á–Å
+// CTsDescrambler æ§‹ç¯‰/æ¶ˆæ»…
 //////////////////////////////////////////////////////////////////////
 
 CTsDescrambler::CTsDescrambler(IEventHandler *pEventHandler)
@@ -303,32 +303,32 @@ void CTsDescrambler::Reset(void)
 
 	m_Queue.Clear();
 
-	// “à•”ó‘Ô‚ğ‰Šú‰»‚·‚é
+	// å†…éƒ¨çŠ¶æ…‹ã‚’åˆæœŸåŒ–ã™ã‚‹
 	m_PidMapManager.UnmapAllTarget();
 
 	CEcmProcessor::ResetCardReaderStatus();
 
-	// PATƒe[ƒuƒ‹PIDƒ}ƒbƒv’Ç‰Á
+	// PATãƒ†ãƒ¼ãƒ–ãƒ«PIDãƒãƒƒãƒ—è¿½åŠ 
 	m_PidMapManager.MapTarget(PID_PAT, new CPatTable, OnPatUpdated, this);
 
-	// SDTƒe[ƒuƒ‹PIDƒ}ƒbƒv’Ç‰Á
+	// SDTãƒ†ãƒ¼ãƒ–ãƒ«PIDãƒãƒƒãƒ—è¿½åŠ 
 	m_PidMapManager.MapTarget(PID_SDT, new CSdtTable, OnSdtUpdated, this);
 
 	if (m_bProcessEmm) {
-		// CATƒe[ƒuƒ‹PIDƒ}ƒbƒv’Ç‰Á
+		// CATãƒ†ãƒ¼ãƒ–ãƒ«PIDãƒãƒƒãƒ—è¿½åŠ 
 		m_PidMapManager.MapTarget(PID_CAT, new CCatTable, OnCatUpdated, this);
 
-		// TOTƒe[ƒuƒ‹PIDƒ}ƒbƒv’Ç‰Á
+		// TOTãƒ†ãƒ¼ãƒ–ãƒ«PIDãƒãƒƒãƒ—è¿½åŠ 
 		m_PidMapManager.MapTarget(PID_TOT, new CTotTable);
 	}
 
-	// “Œvƒf[ƒ^‰Šú‰»
+	// çµ±è¨ˆãƒ‡ãƒ¼ã‚¿åˆæœŸåŒ–
 	m_InputPacketCount = 0;
 	m_ScramblePacketCount = 0;
 
 	m_CurTransportStreamID = 0;
 
-	// ƒXƒNƒ‰ƒ“ƒuƒ‹‰ğœƒ^[ƒQƒbƒg‰Šú‰»
+	// ã‚¹ã‚¯ãƒ©ãƒ³ãƒ–ãƒ«è§£é™¤ã‚¿ãƒ¼ã‚²ãƒƒãƒˆåˆæœŸåŒ–
 	m_DescrambleServiceID = 0;
 	m_ServiceList.clear();
 
@@ -344,24 +344,24 @@ const bool CTsDescrambler::InputMedia(CMediaData *pMediaData, const DWORD dwInpu
 
 	CTsPacket *pTsPacket = dynamic_cast<CTsPacket *>(pMediaData);
 
-	// “ü—ÍƒƒfƒBƒAƒf[ƒ^‚ÍŒİŠ·«‚ª‚È‚¢
+	// å…¥åŠ›ãƒ¡ãƒ‡ã‚£ã‚¢ãƒ‡ãƒ¼ã‚¿ã¯äº’æ›æ€§ãŒãªã„
 	if(!pTsPacket)return false;
 	*/
 
 	CTsPacket *pTsPacket = static_cast<CTsPacket *>(pMediaData);
 
-	// “ü—ÍƒpƒPƒbƒg”ƒJƒEƒ“ƒg
+	// å…¥åŠ›ãƒ‘ã‚±ãƒƒãƒˆæ•°ã‚«ã‚¦ãƒ³ãƒˆ
 	m_InputPacketCount++;
 
 	if (!pTsPacket->IsScrambled() || m_bDescramble) {
-		// PIDƒ‹[ƒeƒBƒ“ƒO
+		// PIDãƒ«ãƒ¼ãƒ†ã‚£ãƒ³ã‚°
 		m_PidMapManager.StorePacket(pTsPacket);
 	} else {
-		// •œ†˜R‚êƒpƒPƒbƒg”ƒJƒEƒ“ƒg
+		// å¾©å·æ¼ã‚Œãƒ‘ã‚±ãƒƒãƒˆæ•°ã‚«ã‚¦ãƒ³ãƒˆ
 		m_ScramblePacketCount++;
 	}
 
-	// ƒpƒPƒbƒg‚ğ‰º—¬ƒfƒR[ƒ_‚Éƒf[ƒ^‚ğ“n‚·
+	// ãƒ‘ã‚±ãƒƒãƒˆã‚’ä¸‹æµãƒ‡ã‚³ãƒ¼ãƒ€ã«ãƒ‡ãƒ¼ã‚¿ã‚’æ¸¡ã™
 	OutputMedia(pMediaData);
 
 	return true;
@@ -386,9 +386,9 @@ bool CTsDescrambler::EnableEmmProcess(bool bEnable)
 
 	if (m_bProcessEmm != bEnable) {
 		if (bEnable) {
-			// CATƒe[ƒuƒ‹PIDƒ}ƒbƒv’Ç‰Á
+			// CATãƒ†ãƒ¼ãƒ–ãƒ«PIDãƒãƒƒãƒ—è¿½åŠ 
 			m_PidMapManager.MapTarget(PID_CAT, new CCatTable, OnCatUpdated, this);
-			// TOTƒe[ƒuƒ‹PIDƒ}ƒbƒv’Ç‰Á
+			// TOTãƒ†ãƒ¼ãƒ–ãƒ«PIDãƒãƒƒãƒ—è¿½åŠ 
 			m_PidMapManager.MapTarget(PID_TOT, new CTotTable);
 		} else {
 			if (m_EmmPID < 0x1FFF) {
@@ -424,7 +424,7 @@ bool CTsDescrambler::OpenCasCard(CCardReader::ReaderType ReaderType, LPCTSTR psz
 void CTsDescrambler::CloseCasCard(void)
 {
 	m_Queue.EndCasThread();
-	// CASƒJ[ƒh‚ğ•Â‚¶‚é
+	// CASã‚«ãƒ¼ãƒ‰ã‚’é–‰ã˜ã‚‹
 	//m_CasCard.CloseCard();
 }
 
@@ -453,12 +453,12 @@ bool CTsDescrambler::GetCasCardID(BYTE *pCardID) const
 	if (pCardID == NULL)
 		return false;
 
-	// ƒJ[ƒhIDæ“¾
+	// ã‚«ãƒ¼ãƒ‰IDå–å¾—
 	const BYTE *pBuff = m_CasCard.GetCardID();
 	if (pBuff == NULL)
 		return false;
 
-	// ƒoƒbƒtƒ@‚ÉƒRƒs[
+	// ãƒãƒƒãƒ•ã‚¡ã«ã‚³ãƒ”ãƒ¼
 	::CopyMemory(pCardID, pBuff, 6UL);
 
 	return true;
@@ -481,13 +481,13 @@ BYTE CTsDescrambler::GetCasCardVersion() const
 
 ULONGLONG CTsDescrambler::GetInputPacketCount(void) const
 {
-	// “ü—ÍƒpƒPƒbƒg”‚ğ•Ô‚·
+	// å…¥åŠ›ãƒ‘ã‚±ãƒƒãƒˆæ•°ã‚’è¿”ã™
 	return m_InputPacketCount;
 }
 
 ULONGLONG CTsDescrambler::GetScramblePacketCount(void) const
 {
-	// •œ†˜R‚êƒpƒPƒbƒg”‚ğ•Ô‚·
+	// å¾©å·æ¼ã‚Œãƒ‘ã‚±ãƒƒãƒˆæ•°ã‚’è¿”ã™
 	return m_ScramblePacketCount;
 }
 
@@ -500,7 +500,7 @@ int CTsDescrambler::GetServiceIndexByID(WORD ServiceID) const
 {
 	int Index;
 
-	// ƒvƒƒOƒ‰ƒ€ID‚©‚çƒT[ƒrƒXƒCƒ“ƒfƒbƒNƒX‚ğŒŸõ‚·‚é
+	// ãƒ—ãƒ­ã‚°ãƒ©ãƒ IDã‹ã‚‰ã‚µãƒ¼ãƒ“ã‚¹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’æ¤œç´¢ã™ã‚‹
 	for (Index = (int)m_ServiceList.size() - 1 ; Index >= 0 ; Index--) {
 		if (m_ServiceList[Index].ServiceID == ServiceID)
 			break;
@@ -747,7 +747,7 @@ bool CTsDescrambler::IsSSSE3Available()
 
 void CALLBACK CTsDescrambler::OnPatUpdated(const WORD wPID, CTsPidMapTarget *pMapTarget, CTsPidMapManager *pMapManager, const PVOID pParam)
 {
-	// PAT‚ªXV‚³‚ê‚½
+	// PATãŒæ›´æ–°ã•ã‚ŒãŸ
 	CTsDescrambler *pThis = static_cast<CTsDescrambler *>(pParam);
 	CPatTable *pPatTable = static_cast<CPatTable *>(pMapTarget);
 
@@ -755,7 +755,7 @@ void CALLBACK CTsDescrambler::OnPatUpdated(const WORD wPID, CTsPidMapTarget *pMa
 
 	const WORD TsID = pPatTable->GetTransportStreamID();
 	if (TsID != pThis->m_CurTransportStreamID) {
-		// TSID‚ª•Ï‰»‚µ‚½‚çƒŠƒZƒbƒg‚·‚é
+		// TSIDãŒå¤‰åŒ–ã—ãŸã‚‰ãƒªã‚»ãƒƒãƒˆã™ã‚‹
 		pThis->m_Queue.Clear();
 		for (WORD PID = 0x0002 ; PID < 0x2000 ; PID++) {
 			if (PID != PID_TOT && PID != PID_SDT)
@@ -778,7 +778,7 @@ void CALLBACK CTsDescrambler::OnPatUpdated(const WORD wPID, CTsPidMapTarget *pMa
 		pThis->m_CurTransportStreamID = TsID;
 		pThis->m_EmmPID = 0xFFFF;
 	} else {
-		// –³‚­‚È‚Á‚½PMT‚ğƒXƒNƒ‰ƒ“ƒuƒ‹‰ğœ‘ÎÛ‚©‚çœŠO‚·‚é
+		// ç„¡ããªã£ãŸPMTã‚’ã‚¹ã‚¯ãƒ©ãƒ³ãƒ–ãƒ«è§£é™¤å¯¾è±¡ã‹ã‚‰é™¤å¤–ã™ã‚‹
 		for (size_t i = 0 ; i < pThis->m_ServiceList.size() ; i++) {
 			const WORD PmtPID = pThis->m_ServiceList[i].PmtPID;
 			WORD j;
@@ -826,7 +826,7 @@ void CALLBACK CTsDescrambler::OnPatUpdated(const WORD wPID, CTsPidMapTarget *pMa
 
 void CALLBACK CTsDescrambler::OnPmtUpdated(const WORD wPID, CTsPidMapTarget *pMapTarget, CTsPidMapManager *pMapManager, const PVOID pParam)
 {
-	// PMT‚ªXV‚³‚ê‚½
+	// PMTãŒæ›´æ–°ã•ã‚ŒãŸ
 	CTsDescrambler *pThis = static_cast<CTsDescrambler *>(pParam);
 	CDescramblePmtTable *pPmtTable = static_cast<CDescramblePmtTable *>(pMapTarget);
 
@@ -863,11 +863,11 @@ void CALLBACK CTsDescrambler::OnPmtUpdated(const WORD wPID, CTsPidMapTarget *pMa
 
 void CALLBACK CTsDescrambler::OnCatUpdated(const WORD wPID, CTsPidMapTarget *pMapTarget, CTsPidMapManager *pMapManager, const PVOID pParam)
 {
-	// CAT‚ªXV‚³‚ê‚½
+	// CATãŒæ›´æ–°ã•ã‚ŒãŸ
 	CTsDescrambler *pThis = static_cast<CTsDescrambler *>(pParam);
 	CCatTable *pCatTable = static_cast<CCatTable *>(pMapTarget);
 
-	// EMM‚ÌPID’Ç‰Á
+	// EMMã®PIDè¿½åŠ 
 	WORD SystemID, EmmPID;
 	if (pThis->m_CasCard.GetCASystemID(&SystemID)) {
 		EmmPID = pCatTable->GetEmmPID(SystemID);
@@ -887,14 +887,14 @@ void CALLBACK CTsDescrambler::OnCatUpdated(const WORD wPID, CTsPidMapTarget *pMa
 
 void CALLBACK CTsDescrambler::OnSdtUpdated(const WORD wPID, CTsPidMapTarget *pMapTarget, CTsPidMapManager *pMapManager, const PVOID pParam)
 {
-	// SDT‚ªXV‚³‚ê‚½
+	// SDTãŒæ›´æ–°ã•ã‚ŒãŸ
 	CTsDescrambler *pThis = static_cast<CTsDescrambler *>(pParam);
 	CSdtTable *pSdtTable = static_cast<CSdtTable *>(pMapTarget);
 
 	const WORD NetworkID = pSdtTable->GetNetworkID();
 
-	// Œ_–ñŠm”Fî•ñ‚ğæ“¾‚·‚é
-	// TODO: CA_contract_info_descriptor‚ª•¡”‚ ‚éê‡‚Ì‘Î‰
+	// å¥‘ç´„ç¢ºèªæƒ…å ±ã‚’å–å¾—ã™ã‚‹
+	// TODO: CA_contract_info_descriptorãŒè¤‡æ•°ã‚ã‚‹å ´åˆã®å¯¾å¿œ
 	/*WORD CASystemID;
 	if (pThis->m_CasCard.GetCASystemID(&CASystemID))*/ {
 		TRACE(TEXT("Verification info : NID %04x\n"), NetworkID);
@@ -970,7 +970,7 @@ CDescramblePmtTable::CDescramblePmtTable(CTsDescrambler *pDescrambler)
 
 void CDescramblePmtTable::UnmapEcmTarget()
 {
-	// ECM‚ª‘¼‚ÌƒXƒNƒ‰ƒ“ƒuƒ‹‰ğœ‘ÎÛƒT[ƒrƒX‚ÆˆÙ‚È‚éê‡‚ÍƒAƒ“ƒ}ƒbƒv
+	// ECMãŒä»–ã®ã‚¹ã‚¯ãƒ©ãƒ³ãƒ–ãƒ«è§£é™¤å¯¾è±¡ã‚µãƒ¼ãƒ“ã‚¹ã¨ç•°ãªã‚‹å ´åˆã¯ã‚¢ãƒ³ãƒãƒƒãƒ—
 	if (m_EcmPID < 0x1FFF) {
 		bool bFound = false;
 		for (size_t i = 0 ; i < m_pDescrambler->m_ServiceList.size() ; i++) {
@@ -990,7 +990,7 @@ void CDescramblePmtTable::UnmapEcmTarget()
 
 void CDescramblePmtTable::UnmapEsTarget()
 {
-	// ES‚ÌPIDƒ}ƒbƒvíœ
+	// ESã®PIDãƒãƒƒãƒ—å‰Šé™¤
 	for (size_t i = 0 ; i < m_EsPIDList.size() ; i++) {
 		const WORD EsPID = m_EsPIDList[i];
 		bool bFound = false;
@@ -1015,7 +1015,7 @@ void CDescramblePmtTable::UnmapEsTarget()
 
 void CDescramblePmtTable::SetTarget()
 {
-	// ƒXƒNƒ‰ƒ“ƒuƒ‹‰ğœ‘ÎÛ‚Éİ’è
+	// ã‚¹ã‚¯ãƒ©ãƒ³ãƒ–ãƒ«è§£é™¤å¯¾è±¡ã«è¨­å®š
 
 	WORD CASystemID, EcmPID;
 	if (m_pDescrambler->m_CasCard.GetCASystemID(&CASystemID)) {
@@ -1028,7 +1028,7 @@ void CDescramblePmtTable::SetTarget()
 
 	if (EcmPID < 0x1FFF) {
 		if (m_EcmPID < 0x1FFF) {
-			// ECM‚ÆES‚ÌPID‚ğƒAƒ“ƒ}ƒbƒv
+			// ECMã¨ESã®PIDã‚’ã‚¢ãƒ³ãƒãƒƒãƒ—
 			if (EcmPID != m_EcmPID) {
 				UnmapEcmTarget();
 			} else {
@@ -1038,13 +1038,13 @@ void CDescramblePmtTable::SetTarget()
 
 		m_pEcmProcessor = dynamic_cast<CEcmProcessor*>(m_pMapManager->GetMapTarget(EcmPID));
 		if (m_pEcmProcessor == NULL) {
-			// ECMˆ—“à•”ƒNƒ‰ƒXV‹Kƒ}ƒbƒv
+			// ECMå‡¦ç†å†…éƒ¨ã‚¯ãƒ©ã‚¹æ–°è¦ãƒãƒƒãƒ—
 			m_pEcmProcessor = new CEcmProcessor(m_pDescrambler);
 			m_pMapManager->MapTarget(EcmPID, m_pEcmProcessor);
 		}
 		m_EcmPID = EcmPID;
 
-		// ES‚ÌPIDƒ}ƒbƒv’Ç‰Á
+		// ESã®PIDãƒãƒƒãƒ—è¿½åŠ 
 		m_EsPIDList.resize(GetEsInfoNum());
 		for (WORD i = 0 ; i < GetEsInfoNum() ; i++) {
 			const WORD EsPID = GetEsPID(i);
@@ -1064,9 +1064,9 @@ void CDescramblePmtTable::SetTarget()
 
 void CDescramblePmtTable::ResetTarget()
 {
-	// ƒXƒNƒ‰ƒ“ƒuƒ‹‰ğœ‘ÎÛ‚©‚çœŠO
+	// ã‚¹ã‚¯ãƒ©ãƒ³ãƒ–ãƒ«è§£é™¤å¯¾è±¡ã‹ã‚‰é™¤å¤–
 	if (m_EcmPID < 0x1FFF) {
-		// ECM‚ÆES‚ÌPID‚ğƒAƒ“ƒ}ƒbƒv
+		// ECMã¨ESã®PIDã‚’ã‚¢ãƒ³ãƒãƒƒãƒ—
 		UnmapEcmTarget();
 
 		m_pEcmProcessor = NULL;
@@ -1084,7 +1084,7 @@ void CDescramblePmtTable::OnPidUnmapped(const WORD wPID)
 
 
 //////////////////////////////////////////////////////////////////////
-// CEcmProcessor \’z/Á–Å
+// CEcmProcessor æ§‹ç¯‰/æ¶ˆæ»…
 //////////////////////////////////////////////////////////////////////
 
 DWORD CEcmProcessor::m_EcmErrorCount = 0;
@@ -1113,7 +1113,7 @@ CEcmProcessor::CEcmProcessor(CTsDescrambler *pDescrambler)
 	, m_bEcmErrorSent(false)
 	, m_LastScramblingCtrl(0)
 {
-	// MULTI2ƒfƒR[ƒ_‚ÉƒVƒXƒeƒ€ƒL[‚Æ‰ŠúCBC‚ğƒZƒbƒg
+	// MULTI2ãƒ‡ã‚³ãƒ¼ãƒ€ã«ã‚·ã‚¹ãƒ†ãƒ ã‚­ãƒ¼ã¨åˆæœŸCBCã‚’ã‚»ãƒƒãƒˆ
 	if (m_pDescrambler->m_CasCard.IsCardOpen())
 		m_Multi2Decoder.Initialize(m_pDescrambler->m_CasCard.GetSystemKey(),
 								   m_pDescrambler->m_CasCard.GetInitialCbc());
@@ -1145,7 +1145,7 @@ const bool CEcmProcessor::DescramblePacket(CTsPacket *pTsPacket)
 		return true;
 
 	if (!m_bEcmReceived) {
-		// ‚Ü‚¾ECM‚ª—ˆ‚Ä‚¢‚È‚¢
+		// ã¾ã ECMãŒæ¥ã¦ã„ãªã„
 		m_pDescrambler->m_ScramblePacketCount++;
 		return false;
 	}
@@ -1157,20 +1157,20 @@ const bool CEcmProcessor::DescramblePacket(CTsPacket *pTsPacket)
 	if (m_LastScramblingCtrl != ScramblingCtrl) {
 		if (m_LastScramblingCtrl != 0) {
 			/*
-				ˆê‚Â‚ÌECM‚Å•¡”‚ÌƒXƒgƒŠ[ƒ€‚ª‘ÎÛ‚É‚È‚Á‚Ä‚¢‚éA
-				ƒXƒgƒŠ[ƒ€‚É‚æ‚Á‚ÄOdd/Even‚ÌØ‚è‘Ö‚í‚éƒ^ƒCƒ~ƒ“ƒO‚ªˆá‚¤–‚ª‚ ‚é?
-				(–¢Šm”F‚¾‚ªA•s‹ï‡•ñ‚©‚ç‚Ì„‘ª)
-				–³Œø‚É‚·‚é‚Ì‚ğECM‚ÌKs‚ª•Ï‚í‚Á‚½ƒ^ƒCƒ~ƒ“ƒO‚É‚µ‚Ä‚¨‚­
+				ä¸€ã¤ã®ECMã§è¤‡æ•°ã®ã‚¹ãƒˆãƒªãƒ¼ãƒ ãŒå¯¾è±¡ã«ãªã£ã¦ã„ã‚‹æ™‚ã€
+				ã‚¹ãƒˆãƒªãƒ¼ãƒ ã«ã‚ˆã£ã¦Odd/Evenã®åˆ‡ã‚Šæ›¿ã‚ã‚‹ã‚¿ã‚¤ãƒŸãƒ³ã‚°ãŒé•ã†äº‹ãŒã‚ã‚‹?
+				(æœªç¢ºèªã ãŒã€ä¸å…·åˆå ±å‘Šã‹ã‚‰ã®æ¨æ¸¬)
+				ç„¡åŠ¹ã«ã™ã‚‹ã®ã‚’ECMã®KsãŒå¤‰ã‚ã£ãŸã‚¿ã‚¤ãƒŸãƒ³ã‚°ã«ã—ã¦ãŠã
 			*/
 #if 0
-			// Odd/Even‚ªØ‚è‘Ö‚í‚Á‚½‚É‚à‚¤•Ğ•û‚ğ–³Œø‚É‚·‚é(ŒÃ‚¢ƒL[‚ªg‚í‚ê‘±‚¯‚é‚Ì‚ğ–h‚®‚½‚ß)
+			// Odd/EvenãŒåˆ‡ã‚Šæ›¿ã‚ã£ãŸæ™‚ã«ã‚‚ã†ç‰‡æ–¹ã‚’ç„¡åŠ¹ã«ã™ã‚‹(å¤ã„ã‚­ãƒ¼ãŒä½¿ã‚ã‚Œç¶šã‘ã‚‹ã®ã‚’é˜²ããŸã‚)
 			if (bEven)
 				m_bOddKeyValid = false;
 			else
 				m_bEvenKeyValid = false;
 #endif
 
-			// ECMˆ—’†‚Å‚ ‚ê‚Î‘Ò‚Á‚Ä‚İ‚é
+			// ECMå‡¦ç†ä¸­ã§ã‚ã‚Œã°å¾…ã£ã¦ã¿ã‚‹
 			if (((bEven && !m_bEvenKeyValid) || (!bEven && !m_bOddKeyValid))
 					&& !m_EcmProcessEvent.IsSignaled()
 					&& !m_bCardReaderHung) {
@@ -1179,7 +1179,7 @@ const bool CEcmProcessor::DescramblePacket(CTsPacket *pTsPacket)
 				m_Multi2Lock.Lock();
 			}
 		} else {
-			// Å‰‚ÌECMˆ—’†‚Å‚ ‚ê‚ÎI‚í‚é‚Ü‚Å‘Ò‚Â
+			// æœ€åˆã®ECMå‡¦ç†ä¸­ã§ã‚ã‚Œã°çµ‚ã‚ã‚‹ã¾ã§å¾…ã¤
 			m_Multi2Lock.Unlock();
 			m_EcmProcessEvent.Wait(3000);
 			m_Multi2Lock.Lock();
@@ -1188,7 +1188,7 @@ const bool CEcmProcessor::DescramblePacket(CTsPacket *pTsPacket)
 		m_LastScramblingCtrl = ScramblingCtrl;
 	}
 
-	// ƒXƒNƒ‰ƒ“ƒuƒ‹‰ğœ
+	// ã‚¹ã‚¯ãƒ©ãƒ³ãƒ–ãƒ«è§£é™¤
 	if ((bEven && m_bEvenKeyValid) || (!bEven && m_bOddKeyValid)) {
 		if (m_Multi2Decoder.Decode
 				(pTsPacket->GetPayloadData(),
@@ -1196,7 +1196,7 @@ const bool CEcmProcessor::DescramblePacket(CTsPacket *pTsPacket)
 				ScramblingCtrl)) {
 			m_Multi2Lock.Unlock();
 
-			// ƒgƒ‰ƒ“ƒXƒ|[ƒgƒXƒNƒ‰ƒ“ƒuƒ‹§ŒäÄİ’è
+			// ãƒˆãƒ©ãƒ³ã‚¹ãƒãƒ¼ãƒˆã‚¹ã‚¯ãƒ©ãƒ³ãƒ–ãƒ«åˆ¶å¾¡å†è¨­å®š
 			pTsPacket->SetAt(3UL, pTsPacket->GetAt(3UL) & 0x3FU);
 			pTsPacket->m_Header.byTransportScramblingCtrl = 0;
 			return true;
@@ -1210,7 +1210,7 @@ const bool CEcmProcessor::DescramblePacket(CTsPacket *pTsPacket)
 	return false;
 }
 
-// Ks‚Ì”äŠr
+// Ksã®æ¯”è¼ƒ
 static inline bool CompareKs(const void *pKey1, const void *pKey2)
 {
 #ifdef _WIN64
@@ -1231,11 +1231,11 @@ const bool CEcmProcessor::OnTableUpdate(const CPsiSection *pCurSection, const CP
 	if (PayloadSize < MIN_ECM_DATA_SIZE || PayloadSize > MAX_ECM_DATA_SIZE)
 		return false;
 
-// for SPHD s —p•ÏX
+// for SPHD s ç”¨å¤‰æ›´
 /*
-	// ECM‚ª•Ï‚í‚Á‚½‚çƒL[æ“¾‚ª¬Œ÷‚·‚é‚Ü‚Å–³Œø‚É‚·‚é
-	// (Å‰ECM–{‘Ì‚ÌKs‚ª•Ï‰»‚µ‚½‚©”äŠr‚·‚é‚æ‚¤‚É‚µ‚½‚ªA
-	//  ECM–{‘Ì‚ÆECM‰“š‚ÌKs‚Ì•Ï‰»‚Íˆê’v‚·‚é‚í‚¯‚Å‚Í‚È‚¢)
+	// ECMãŒå¤‰ã‚ã£ãŸã‚‰ã‚­ãƒ¼å–å¾—ãŒæˆåŠŸã™ã‚‹ã¾ã§ç„¡åŠ¹ã«ã™ã‚‹
+	// (æœ€åˆECMæœ¬ä½“ã®KsãŒå¤‰åŒ–ã—ãŸã‹æ¯”è¼ƒã™ã‚‹ã‚ˆã†ã«ã—ãŸãŒã€
+	//  ECMæœ¬ä½“ã¨ECMå¿œç­”ã®Ksã®å¤‰åŒ–ã¯ä¸€è‡´ã™ã‚‹ã‚ã‘ã§ã¯ãªã„)
 	m_Multi2Lock.Lock();
 	if (m_LastChangedKey == 1) {
 		m_bEvenKeyValid = false;
@@ -1245,7 +1245,7 @@ const bool CEcmProcessor::OnTableUpdate(const CPsiSection *pCurSection, const CP
 	m_Multi2Lock.Unlock();
 */
 
-	// ‘O‚ÌECMˆ—‚ªI‚í‚é‚Ü‚Å‘Ò‚Â
+	// å‰ã®ECMå‡¦ç†ãŒçµ‚ã‚ã‚‹ã¾ã§å¾…ã¤
 	if (!m_EcmProcessEvent.IsSignaled()) {
 		if (m_bCardReaderHung)
 			return false;
@@ -1255,7 +1255,7 @@ const bool CEcmProcessor::OnTableUpdate(const CPsiSection *pCurSection, const CP
 		}
 	}
 
-	// CASƒAƒNƒZƒXƒLƒ…[‚É’Ç‰Á
+	// CASã‚¢ã‚¯ã‚»ã‚¹ã‚­ãƒ¥ãƒ¼ã«è¿½åŠ 
 	m_EcmProcessEvent.Reset();
 	CEcmAccess *pEcmAccess = new CEcmAccess(this, pCurSection->GetPayloadData(), PayloadSize, &m_EcmProcessEvent);
 	if (m_pDescrambler->m_Queue.Enqueue(pEcmAccess)) {
@@ -1269,23 +1269,23 @@ const bool CEcmProcessor::OnTableUpdate(const CPsiSection *pCurSection, const CP
 
 const bool CEcmProcessor::SetScrambleKey(CCasCard *pCasCard, const BYTE *pEcmData, DWORD EcmSize)
 {
-	// ECM‚ğCASƒJ[ƒh‚É“n‚µ‚ÄƒL[æ“¾
+	// ECMã‚’CASã‚«ãƒ¼ãƒ‰ã«æ¸¡ã—ã¦ã‚­ãƒ¼å–å¾—
 	const BYTE *pKsData = pCasCard->GetKsFromEcm(pEcmData, EcmSize);
 
 	if (!pKsData) {
 		int ErrorCode = pCasCard->GetLastErrorCode();
-		// ECMˆ—¸”s‚Íˆê“x‚¾‚¯Ä‘—M‚·‚é
+		// ECMå‡¦ç†å¤±æ•—æ™‚ã¯ä¸€åº¦ã ã‘å†é€ä¿¡ã™ã‚‹
 		if (m_bLastEcmSucceed
 				&& ErrorCode != CCasCard::ERR_CARDNOTOPEN
 				&& ErrorCode != CCasCard::ERR_ECMREFUSED
 				&& ErrorCode != CCasCard::ERR_BADARGUMENT) {
-			// Ä‘—M‚µ‚Ä‚İ‚é
+			// å†é€ä¿¡ã—ã¦ã¿ã‚‹
 			pKsData = pCasCard->GetKsFromEcm(pEcmData, EcmSize);
 			if (!pKsData) {
 				ErrorCode = pCasCard->GetLastErrorCode();
 				if (ErrorCode != CCasCard::ERR_ECMREFUSED) {
-					// ƒJ[ƒh‚ğŠJ‚«’¼‚µ‚ÄÄ‰Šú‰»‚µ‚Ä‚İ‚é
-					TRACE(TEXT("CEcmProcessor::SetScrambleKey() : ƒGƒ‰[‚Ì‚½‚ßƒJ[ƒhÄ‰Šú‰»\n"));
+					// ã‚«ãƒ¼ãƒ‰ã‚’é–‹ãç›´ã—ã¦å†åˆæœŸåŒ–ã—ã¦ã¿ã‚‹
+					TRACE(TEXT("CEcmProcessor::SetScrambleKey() : ã‚¨ãƒ©ãƒ¼ã®ãŸã‚ã‚«ãƒ¼ãƒ‰å†åˆæœŸåŒ–\n"));
 					if (pCasCard->ReOpenCard()) {
 						m_Multi2Decoder.Initialize(pCasCard->GetSystemKey(),
 												   pCasCard->GetInitialCbc());
@@ -1297,7 +1297,7 @@ const bool CEcmProcessor::SetScrambleKey(CCasCard *pCasCard, const BYTE *pEcmDat
 			}
 		}
 
-		// ˜A‘±‚µ‚ÄƒGƒ‰[‚ª‹N‚«‚½‚ç’Ê’m
+		// é€£ç¶šã—ã¦ã‚¨ãƒ©ãƒ¼ãŒèµ·ããŸã‚‰é€šçŸ¥
 		if (!pKsData && !m_bLastEcmSucceed
 				&& ErrorCode != CCasCard::ERR_CARDNOTOPEN) {
 			if (!m_bEcmErrorSent && m_EcmPID < 0x1FFF) {
@@ -1316,15 +1316,15 @@ const bool CEcmProcessor::SetScrambleKey(CCasCard *pCasCard, const BYTE *pEcmDat
 
 	m_Multi2Lock.Lock();
 
-	// ƒXƒNƒ‰ƒ“ƒuƒ‹ƒL[XV
+	// ã‚¹ã‚¯ãƒ©ãƒ³ãƒ–ãƒ«ã‚­ãƒ¼æ›´æ–°
 	m_Multi2Decoder.SetScrambleKey(pKsData);
 
-	// ECMˆ—¬Œ÷ó‘ÔXV
+	// ECMå‡¦ç†æˆåŠŸçŠ¶æ…‹æ›´æ–°
 	const bool bSucceeded = pKsData != NULL;
 	m_LastChangedKey = 0;
 	if (bSucceeded) {
 		if (m_bLastEcmSucceed) {
-			// ƒL[‚ª•Ï‚í‚Á‚½‚ç—LŒøó‘ÔXV
+			// ã‚­ãƒ¼ãŒå¤‰ã‚ã£ãŸã‚‰æœ‰åŠ¹çŠ¶æ…‹æ›´æ–°
 			const bool bOddKeyChanged  = !CompareKs(&m_LastKsData[0], &pKsData[0]);
 			const bool bEvenKeyChanged = !CompareKs(&m_LastKsData[8], &pKsData[8]);
 			if (bOddKeyChanged)
@@ -1364,7 +1364,7 @@ void CEcmProcessor::OnCardReaderHung()
 
 
 //////////////////////////////////////////////////////////////////////
-// CEmmProcessor \’z/Á–Å
+// CEmmProcessor æ§‹ç¯‰/æ¶ˆæ»…
 //////////////////////////////////////////////////////////////////////
 
 CEmmProcessor::CEmmProcessor(CTsDescrambler *pDescrambler)
@@ -1446,7 +1446,7 @@ const bool CEmmProcessor::OnTableUpdate(const CPsiSection *pCurSection)
 			LocalTime.LowPart = ft.dwLowDateTime;
 			LocalTime.HighPart = ft.dwHighDateTime;
 			if (TotTime.QuadPart + (10000000ULL * 60ULL * 60ULL * EMM_PROCESS_TIME) > LocalTime.QuadPart) {
-				// CASƒAƒNƒZƒXƒLƒ…[‚É’Ç‰Á
+				// CASã‚¢ã‚¯ã‚»ã‚¹ã‚­ãƒ¥ãƒ¼ã«è¿½åŠ 
 				CEmmAccess *pEmmAccess = new CEmmAccess(this, &pHexData[Pos], EmmSize);
 				if (!m_pDescrambler->m_Queue.Enqueue(pEmmAccess))
 					delete pEmmAccess;
@@ -1475,7 +1475,7 @@ const bool CEmmProcessor::ProcessEmm(CCasCard *pCasCard, const BYTE *pData, DWOR
 
 
 //////////////////////////////////////////////////////////////////////
-// CTsDescrambler::CEsProcessor \’z/Á–Å
+// CTsDescrambler::CEsProcessor æ§‹ç¯‰/æ¶ˆæ»…
 //////////////////////////////////////////////////////////////////////
 
 CTsDescrambler::CEsProcessor::CEsProcessor(CEcmProcessor *pEcmProcessor)
@@ -1494,7 +1494,7 @@ CTsDescrambler::CEsProcessor::~CEsProcessor()
 
 const bool CTsDescrambler::CEsProcessor::StorePacket(const CTsPacket *pPacket)
 {
-	// ƒXƒNƒ‰ƒ“ƒuƒ‹‰ğœ
+	// ã‚¹ã‚¯ãƒ©ãƒ³ãƒ–ãƒ«è§£é™¤
 	if (pPacket->IsScrambled()
 			&& !m_pEcmProcessor->DescramblePacket(const_cast<CTsPacket *>(pPacket)))
 		return false;
@@ -1568,7 +1568,7 @@ bool CCasAccessQueue::BeginCasThread(CCardReader::ReaderType ReaderType, LPCTSTR
 		::TerminateThread(m_hThread, -1);
 		::CloseHandle(m_hThread);
 		m_hThread = NULL;
-		SetError(TEXT("ƒJ[ƒhƒŠ[ƒ_[‚ÌƒI[ƒvƒ“‚ÅAƒJ[ƒhƒŠ[ƒ_[‚ª‰“š‚µ‚Ü‚¹‚ñB"));
+		SetError(TEXT("ã‚«ãƒ¼ãƒ‰ãƒªãƒ¼ãƒ€ãƒ¼ã®ã‚ªãƒ¼ãƒ—ãƒ³ã§ã€ã‚«ãƒ¼ãƒ‰ãƒªãƒ¼ãƒ€ãƒ¼ãŒå¿œç­”ã—ã¾ã›ã‚“ã€‚"));
 		return false;
 	}
 	if (!m_pCasCard->IsCardOpen()) {
@@ -1604,7 +1604,7 @@ unsigned int __stdcall CCasAccessQueue::CasAccessThread(LPVOID lpParameter)
 {
 	CCasAccessQueue *pThis=static_cast<CCasAccessQueue*>(lpParameter);
 
-	// ƒJ[ƒhƒŠ[ƒ_‚©‚çCASƒJ[ƒh‚ğŒŸõ‚µ‚ÄŠJ‚­
+	// ã‚«ãƒ¼ãƒ‰ãƒªãƒ¼ãƒ€ã‹ã‚‰CASã‚«ãƒ¼ãƒ‰ã‚’æ¤œç´¢ã—ã¦é–‹ã
 	if (!pThis->m_pCasCard->OpenCard(pThis->m_ReaderType, pThis->m_pszReaderName)) {
 		pThis->SetError(pThis->m_pCasCard->GetLastErrorException());
 		pThis->m_Event.Set();
@@ -1632,7 +1632,7 @@ unsigned int __stdcall CCasAccessQueue::CasAccessThread(LPVOID lpParameter)
 		}
 	}
 
-	// CASƒJ[ƒh‚ğ•Â‚¶‚é
+	// CASã‚«ãƒ¼ãƒ‰ã‚’é–‰ã˜ã‚‹
 	pThis->m_pCasCard->CloseCard();
 
 	TRACE(TEXT("End CasAccessThread\n"));

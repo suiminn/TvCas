@@ -1,4 +1,4 @@
-// Multi2Decoder.cpp: CMulti2Decoder ƒNƒ‰ƒX‚ÌƒCƒ“ƒvƒŠƒƒ“ƒe[ƒVƒ‡ƒ“
+ï»¿// Multi2Decoder.cpp: CMulti2Decoder ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ãƒ—ãƒªãƒ¡ãƒ³ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -24,7 +24,7 @@ static char THIS_FILE[]=__FILE__;
 
 #if defined(MULTI2_SIMD_ICC) && !defined(__INTEL_COMPILER)
 
-// ICC‚ÅƒRƒ“ƒpƒCƒ‹‚µ‚½ƒ‰ƒCƒuƒ‰ƒŠ‚Ìg—p
+// ICCã§ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã—ãŸãƒ©ã‚¤ãƒ–ãƒ©ãƒªã®ä½¿ç”¨
 #include "../Multi2Decoder/Multi2DecoderSIMD.h"
 #pragma comment(lib, "Multi2Decoder.lib")
 
@@ -47,7 +47,7 @@ static CSIMDInitializer SIMDInitializer;
 #endif	// MULTI2_SIMD
 
 
-// ƒfƒXƒNƒ‰ƒ“ƒuƒ‹‚Ì“Œv‚ğæ‚é
+// ãƒ‡ã‚¹ã‚¯ãƒ©ãƒ³ãƒ–ãƒ«ã®çµ±è¨ˆã‚’å–ã‚‹
 #ifdef MULTI2_STATISTICS
 
 class CMulti2Statistics
@@ -94,7 +94,7 @@ static CMulti2Statistics Multi2Statistics;
 
 inline void CMulti2Decoder::DATKEY::SetHexData(const BYTE *pHexData)
 {
-	// ƒoƒCƒgƒI[ƒ_[•ÏŠ·
+	// ãƒã‚¤ãƒˆã‚ªãƒ¼ãƒ€ãƒ¼å¤‰æ›
 #ifndef MULTI2_USE_INTRINSIC
 	Data[7] = pHexData[0];	Data[6] = pHexData[1];	Data[5] = pHexData[2];	Data[4] = pHexData[3];
 	Data[3] = pHexData[4];	Data[2] = pHexData[5];	Data[1] = pHexData[6];	Data[0] = pHexData[7];
@@ -110,7 +110,7 @@ inline void CMulti2Decoder::DATKEY::SetHexData(const BYTE *pHexData)
 
 inline void CMulti2Decoder::DATKEY::GetHexData(BYTE *pHexData) const
 {
-	// ƒoƒCƒgƒI[ƒ_[•ÏŠ·
+	// ãƒã‚¤ãƒˆã‚ªãƒ¼ãƒ€ãƒ¼å¤‰æ›
 #ifndef MULTI2_USE_INTRINSIC
 	pHexData[0] = Data[7];	pHexData[1] = Data[6];	pHexData[2] = Data[5];	pHexData[3] = Data[4];
 	pHexData[4] = Data[3];	pHexData[5] = Data[2];	pHexData[6] = Data[1];	pHexData[7] = Data[0];
@@ -126,7 +126,7 @@ inline void CMulti2Decoder::DATKEY::GetHexData(BYTE *pHexData) const
 
 inline void CMulti2Decoder::SYSKEY::SetHexData(const BYTE *pHexData)
 {
-	// ƒoƒCƒgƒI[ƒ_[•ÏŠ·
+	// ãƒã‚¤ãƒˆã‚ªãƒ¼ãƒ€ãƒ¼å¤‰æ›
 #ifndef MULTI2_USE_INTRINSIC
 	Data[ 3] = pHexData[ 0];	Data[ 2] = pHexData[ 1];	Data[ 1] = pHexData[ 2];	Data[ 0] = pHexData[ 3];
 	Data[ 7] = pHexData[ 4];	Data[ 6] = pHexData[ 5];	Data[ 5] = pHexData[ 6];	Data[ 4] = pHexData[ 7];
@@ -159,7 +159,7 @@ inline void CMulti2Decoder::SYSKEY::SetHexData(const BYTE *pHexData)
 
 inline void CMulti2Decoder::SYSKEY::GetHexData(BYTE *pHexData) const
 {
-	// ƒoƒCƒgƒI[ƒ_[•ÏŠ·
+	// ãƒã‚¤ãƒˆã‚ªãƒ¼ãƒ€ãƒ¼å¤‰æ›
 #ifndef MULTI2_USE_INTRINSIC
 	pHexData[ 0] = Data[ 3];	pHexData[ 1] = Data[ 2];	pHexData[ 2] = Data[ 1];	pHexData[ 3] = Data[ 0];
 	pHexData[ 4] = Data[ 7];	pHexData[ 5] = Data[ 6];	pHexData[ 6] = Data[ 5];	pHexData[ 7] = Data[ 4];
@@ -244,10 +244,10 @@ const bool CMulti2Decoder::Initialize(const BYTE *pSystemKey, const BYTE *pIniti
 	m_bIsSysKeyValid = true;
 	m_bIsWorkKeyValid = false;
 
-	// Descrambling System KeyƒZƒbƒg
+	// Descrambling System Keyã‚»ãƒƒãƒˆ
 	m_SystemKey.SetHexData(pSystemKey);
 
-	// Descrambler CBC Initial ValueƒZƒbƒg
+	// Descrambler CBC Initial Valueã‚»ãƒƒãƒˆ
 	m_InitialCbc.SetHexData(pInitialCbc);
 
 	return true;
@@ -258,19 +258,19 @@ const bool CMulti2Decoder::SetScrambleKey(const BYTE *pScrambleKey)
 	if(!m_bIsSysKeyValid)return false;
 
 	if(!pScrambleKey){
-		// ƒL[‚ªİ’è‚³‚ê‚È‚¢ê‡‚ÍƒfƒR[ƒh•s”\‚É‚·‚é(•s³‚È•œ†‚É‚æ‚é”j‘¹–h~‚Ì‚½‚ß)
+		// ã‚­ãƒ¼ãŒè¨­å®šã•ã‚Œãªã„å ´åˆã¯ãƒ‡ã‚³ãƒ¼ãƒ‰ä¸èƒ½ã«ã™ã‚‹(ä¸æ­£ãªå¾©å·ã«ã‚ˆã‚‹ç ´æé˜²æ­¢ã®ãŸã‚)
 		m_bIsWorkKeyValid = false;
 		return false;
 		}
 
-	// Scramble Key Odd/Even ‚ğƒZƒbƒg‚·‚é
+	// Scramble Key Odd/Even ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
 	DATKEY ScrKeyOdd, ScrKeyEven;
 
-	// ƒoƒCƒgƒI[ƒ_[•ÏŠ·
+	// ãƒã‚¤ãƒˆã‚ªãƒ¼ãƒ€ãƒ¼å¤‰æ›
 	ScrKeyOdd.SetHexData(&pScrambleKey[0]);
 	ScrKeyEven.SetHexData(&pScrambleKey[8]);
 
-	// ƒL[ƒXƒPƒWƒ…[ƒ‹
+	// ã‚­ãƒ¼ã‚¹ã‚±ã‚¸ãƒ¥ãƒ¼ãƒ«
 	KeySchedule(m_WorkKeyOdd, m_SystemKey, ScrKeyOdd);
 	KeySchedule(m_WorkKeyEven, m_SystemKey, ScrKeyEven);
 
@@ -288,15 +288,15 @@ const bool CMulti2Decoder::SetScrambleKey(const BYTE *pScrambleKey)
 
 const bool CMulti2Decoder::Decode(BYTE *pData, const DWORD dwSize, const BYTE byScrCtrl) const
 {
-	if(!byScrCtrl)return true;										// ƒXƒNƒ‰ƒ“ƒuƒ‹‚È‚µ
-	else if(!m_bIsSysKeyValid || !m_bIsWorkKeyValid)return false;	// ƒXƒNƒ‰ƒ“ƒuƒ‹ƒL[–¢İ’è
-	else if((byScrCtrl != 2U) && (byScrCtrl != 3U))return false;	// ƒXƒNƒ‰ƒ“ƒuƒ‹§Œä•s³
+	if(!byScrCtrl)return true;										// ã‚¹ã‚¯ãƒ©ãƒ³ãƒ–ãƒ«ãªã—
+	else if(!m_bIsSysKeyValid || !m_bIsWorkKeyValid)return false;	// ã‚¹ã‚¯ãƒ©ãƒ³ãƒ–ãƒ«ã‚­ãƒ¼æœªè¨­å®š
+	else if((byScrCtrl != 2U) && (byScrCtrl != 3U))return false;	// ã‚¹ã‚¯ãƒ©ãƒ³ãƒ–ãƒ«åˆ¶å¾¡ä¸æ­£
 
 #ifdef MULTI2_STATISTICS
 	Multi2Statistics.OnDecode(dwSize);
 #endif
 
-	// ƒ[ƒNƒL[‘I‘ğ
+	// ãƒ¯ãƒ¼ã‚¯ã‚­ãƒ¼é¸æŠ
 	const SYSKEY &WorkKey = (byScrCtrl == 3)? m_WorkKeyOdd : m_WorkKeyEven;
 
 #ifdef MULTI2_SIMD
@@ -314,7 +314,7 @@ const bool CMulti2Decoder::Decode(BYTE *pData, const DWORD dwSize, const BYTE by
 	BYTE *pEnd = pData + RemainSize;
 	BYTE *p = pData;
 
-	// CBCƒ‚[ƒh
+	// CBCãƒ¢ãƒ¼ãƒ‰
 	DATKEY SrcData;
 	while (p < pEnd) {
 		SrcData.SetHexData(p);
@@ -334,7 +334,7 @@ const bool CMulti2Decoder::Decode(BYTE *pData, const DWORD dwSize, const BYTE by
 		p += sizeof(DATKEY);
 	}
 
-	// OFBƒ‚[ƒh
+	// OFBãƒ¢ãƒ¼ãƒ‰
 	//RemainSize = dwSize % sizeof(DATKEY);
 	RemainSize = dwSize & 0x00000007UL;
 	if (RemainSize > 0) {
@@ -378,42 +378,42 @@ const bool CMulti2Decoder::Decode(BYTE *pData, const DWORD dwSize, const BYTE by
 void CMulti2Decoder::KeySchedule(SYSKEY &WorkKey, const SYSKEY &SysKey, DATKEY &DataKey)
 {
 	// Key Schedule
-	RoundFuncPi1(DataKey);									// ƒÎ1
+	RoundFuncPi1(DataKey);									// Ï€1
 
-	RoundFuncPi2(DataKey, SysKey.dwKey1);					// ƒÎ2
+	RoundFuncPi2(DataKey, SysKey.dwKey1);					// Ï€2
 	WorkKey.dwKey1 = DataKey.dwLeft;
 
-	RoundFuncPi3(DataKey, SysKey.dwKey2, SysKey.dwKey3);	// ƒÎ3
+	RoundFuncPi3(DataKey, SysKey.dwKey2, SysKey.dwKey3);	// Ï€3
 	WorkKey.dwKey2 = DataKey.dwRight;
 
-	RoundFuncPi4(DataKey, SysKey.dwKey4);					// ƒÎ4
+	RoundFuncPi4(DataKey, SysKey.dwKey4);					// Ï€4
 	WorkKey.dwKey3 = DataKey.dwLeft;
 
-	RoundFuncPi1(DataKey);									// ƒÎ1
+	RoundFuncPi1(DataKey);									// Ï€1
 	WorkKey.dwKey4 = DataKey.dwRight;
 
-	RoundFuncPi2(DataKey, SysKey.dwKey5);					// ƒÎ2
+	RoundFuncPi2(DataKey, SysKey.dwKey5);					// Ï€2
 	WorkKey.dwKey5 = DataKey.dwLeft;
 
-	RoundFuncPi3(DataKey, SysKey.dwKey6, SysKey.dwKey7);	// ƒÎ3
+	RoundFuncPi3(DataKey, SysKey.dwKey6, SysKey.dwKey7);	// Ï€3
 	WorkKey.dwKey6 = DataKey.dwRight;
 
-	RoundFuncPi4(DataKey, SysKey.dwKey8);					// ƒÎ4
+	RoundFuncPi4(DataKey, SysKey.dwKey8);					// Ï€4
 	WorkKey.dwKey7 = DataKey.dwLeft;
 
-	RoundFuncPi1(DataKey);									// ƒÎ1
+	RoundFuncPi1(DataKey);									// Ï€1
 	WorkKey.dwKey8 = DataKey.dwRight;
 }
 
 inline void CMulti2Decoder::RoundFuncPi1(DATKEY &Block)
 {
-	// Elementary Encryption Function ƒÎ1
+	// Elementary Encryption Function Ï€1
 	Block.dwRight ^= Block.dwLeft;
 }
 
 inline void CMulti2Decoder::RoundFuncPi2(DATKEY &Block, const DWORD dwK1)
 {
-	// Elementary Encryption Function ƒÎ2
+	// Elementary Encryption Function Ï€2
 	const DWORD dwY = Block.dwRight + dwK1;
 	const DWORD dwZ = LeftRotate(dwY, 1UL) + dwY - 1UL;
 	Block.dwLeft ^= LeftRotate(dwZ, 4UL) ^ dwZ;
@@ -421,7 +421,7 @@ inline void CMulti2Decoder::RoundFuncPi2(DATKEY &Block, const DWORD dwK1)
 
 inline void CMulti2Decoder::RoundFuncPi3(DATKEY &Block, const DWORD dwK2, const DWORD dwK3)
 {
-	// Elementary Encryption Function ƒÎ3
+	// Elementary Encryption Function Ï€3
 	const DWORD dwY = Block.dwLeft + dwK2;
 	const DWORD dwZ = LeftRotate(dwY, 2UL) + dwY + 1UL;
 	const DWORD dwA = LeftRotate(dwZ, 8UL) ^ dwZ;
@@ -432,18 +432,18 @@ inline void CMulti2Decoder::RoundFuncPi3(DATKEY &Block, const DWORD dwK2, const 
 
 inline void CMulti2Decoder::RoundFuncPi4(DATKEY &Block, const DWORD dwK4)
 {
-	// Elementary Encryption Function ƒÎ4
+	// Elementary Encryption Function Ï€4
 	const DWORD dwY = Block.dwRight + dwK4;
 	Block.dwLeft ^= (LeftRotate(dwY, 2UL) + dwY + 1UL);
 }
 
 inline const DWORD CMulti2Decoder::LeftRotate(const DWORD dwValue, const DWORD dwRotate)
 {
-	// ¶ƒ[ƒe[ƒg
+	// å·¦ãƒ­ãƒ¼ãƒ†ãƒ¼ãƒˆ
 #ifndef MULTI2_USE_INTRINSIC
 	return (dwValue << dwRotate) | (dwValue >> (32UL - dwRotate));
 #else
-	// À‚Íã‚ÌƒR[ƒh‚Å‚àrol‚ªg‚í‚ê‚é
+	// å®Ÿã¯ä¸Šã®ã‚³ãƒ¼ãƒ‰ã§ã‚‚rolãŒä½¿ã‚ã‚Œã‚‹
 	return _lrotl(dwValue, dwRotate);
 #endif
 }

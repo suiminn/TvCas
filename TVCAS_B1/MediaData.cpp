@@ -1,4 +1,4 @@
-// MediaData.cpp: CMediaData ƒNƒ‰ƒX‚ÌƒCƒ“ƒvƒŠƒƒ“ƒe[ƒVƒ‡ƒ“
+ï»¿// MediaData.cpp: CMediaData ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ãƒ—ãƒªãƒ¡ãƒ³ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -16,11 +16,11 @@ static char THIS_FILE[]=__FILE__;
 
 
 //////////////////////////////////////////////////////////////////////
-// \’z/Á–Å
+// æ§‹ç¯‰/æ¶ˆæ»…
 //////////////////////////////////////////////////////////////////////
 
-#define MINBUFSIZE	256UL		// Å¬ƒoƒbƒtƒ@ƒTƒCƒY
-//#define MINADDSIZE	256UL		// Å¬’Ç‰ÁŠm•ÛƒTƒCƒY
+#define MINBUFSIZE	256UL		// æœ€å°ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º
+//#define MINADDSIZE	256UL		// æœ€å°è¿½åŠ ç¢ºä¿ã‚µã‚¤ã‚º
 
 
 CMediaData::CMediaData()
@@ -28,7 +28,7 @@ CMediaData::CMediaData()
 	, m_dwBuffSize(0UL)
 	, m_pData(NULL)
 {
-	// ‹ó‚Ìƒoƒbƒtƒ@‚ğ¶¬‚·‚é
+	// ç©ºã®ãƒãƒƒãƒ•ã‚¡ã‚’ç”Ÿæˆã™ã‚‹
 }
 
 CMediaData::CMediaData(const CMediaData &Operand)
@@ -36,7 +36,7 @@ CMediaData::CMediaData(const CMediaData &Operand)
 	, m_dwBuffSize(0UL)
 	, m_pData(NULL)
 {
-	// ƒRƒs[ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	// ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	*this = Operand;
 }
 
@@ -45,7 +45,7 @@ CMediaData::CMediaData(const DWORD dwBuffSize)
 	, m_dwBuffSize(0UL)
 	, m_pData(NULL)
 {
-	// ƒoƒbƒtƒ@ƒTƒCƒY‚ğw’è‚µ‚Äƒoƒbƒtƒ@‚ğ¶¬‚·‚é
+	// ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚ºã‚’æŒ‡å®šã—ã¦ãƒãƒƒãƒ•ã‚¡ã‚’ç”Ÿæˆã™ã‚‹
 	GetBuffer(dwBuffSize);
 }
 
@@ -54,7 +54,7 @@ CMediaData::CMediaData(const BYTE *pData, const DWORD dwDataSize)
 	, m_dwBuffSize(0UL)
 	, m_pData(NULL)
 {
-	// ƒf[ƒ^‰Šú’l‚ğw’è‚µ‚Äƒoƒbƒtƒ@‚ğ¶¬‚·‚é
+	// ãƒ‡ãƒ¼ã‚¿åˆæœŸå€¤ã‚’æŒ‡å®šã—ã¦ãƒãƒƒãƒ•ã‚¡ã‚’ç”Ÿæˆã™ã‚‹
 	SetData(pData, dwDataSize);
 }
 
@@ -63,7 +63,7 @@ CMediaData::CMediaData(const BYTE byFiller, const DWORD dwDataSize)
 	, m_dwBuffSize(0UL)
 	, m_pData(NULL)
 {
-	// ƒtƒBƒ‹ƒf[ƒ^‚ğw’è‚µ‚Äƒoƒbƒtƒ@‚ğ¶¬‚·‚é
+	// ãƒ•ã‚£ãƒ«ãƒ‡ãƒ¼ã‚¿ã‚’æŒ‡å®šã—ã¦ãƒãƒƒãƒ•ã‚¡ã‚’ç”Ÿæˆã™ã‚‹
 	SetSize(dwDataSize, byFiller);
 }
 
@@ -76,7 +76,7 @@ CMediaData::~CMediaData()
 CMediaData & CMediaData::operator = (const CMediaData &Operand)
 {
 	if (&Operand != this) {
-		// ƒoƒbƒtƒ@ƒTƒCƒY‚Ìî•ñ‚Ü‚Å‚ÍƒRƒs[‚µ‚È‚¢
+		// ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚ºã®æƒ…å ±ã¾ã§ã¯ã‚³ãƒ”ãƒ¼ã—ãªã„
 		SetData(Operand.m_pData, Operand.m_dwDataSize);
 	}
 	return *this;
@@ -90,41 +90,41 @@ CMediaData & CMediaData::operator += (const CMediaData &Operand)
 
 BYTE *CMediaData::GetData()
 {
-	// ƒoƒbƒtƒ@ƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚é
+	// ãƒãƒƒãƒ•ã‚¡ãƒã‚¤ãƒ³ã‚¿ã‚’å–å¾—ã™ã‚‹
 	return m_dwDataSize > 0 ? m_pData : NULL;
 }
 
 const BYTE *CMediaData::GetData() const
 {
-	// ƒoƒbƒtƒ@ƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚é
+	// ãƒãƒƒãƒ•ã‚¡ãƒã‚¤ãƒ³ã‚¿ã‚’å–å¾—ã™ã‚‹
 	return m_dwDataSize > 0 ? m_pData : NULL;
 }
 
 void CMediaData::SetAt(const DWORD dwPos, const BYTE byData)
 {
-	// 1ƒoƒCƒgƒZƒbƒg‚·‚é
+	// 1ãƒã‚¤ãƒˆã‚»ãƒƒãƒˆã™ã‚‹
 	if (dwPos < m_dwDataSize)
 		m_pData[dwPos] = byData;
 }
 
 const BYTE CMediaData::GetAt(const DWORD dwPos) const
 {
-	// 1ƒoƒCƒgæ“¾‚·‚é
+	// 1ãƒã‚¤ãƒˆå–å¾—ã™ã‚‹
 	return dwPos < m_dwDataSize ? m_pData[dwPos] : 0x00;
 }
 
 const DWORD CMediaData::SetData(const void *pData, const DWORD dwDataSize)
 {
 	if (dwDataSize > 0) {
-		// ƒoƒbƒtƒ@Šm•Û
+		// ãƒãƒƒãƒ•ã‚¡ç¢ºä¿
 		if (GetBuffer(dwDataSize) < dwDataSize)
 			return m_dwDataSize;
 
-		// ƒf[ƒ^ƒZƒbƒg
+		// ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆ
 		::CopyMemory(m_pData, pData, dwDataSize);
 	}
 
-	// ƒTƒCƒYƒZƒbƒg
+	// ã‚µã‚¤ã‚ºã‚»ãƒƒãƒˆ
 	m_dwDataSize = dwDataSize;
 
 	return m_dwDataSize;
@@ -133,15 +133,15 @@ const DWORD CMediaData::SetData(const void *pData, const DWORD dwDataSize)
 const DWORD CMediaData::AddData(const void *pData, const DWORD dwDataSize)
 {
 	if (dwDataSize > 0) {
-		// ƒoƒbƒtƒ@Šm•Û
+		// ãƒãƒƒãƒ•ã‚¡ç¢ºä¿
 		DWORD NewSize = m_dwDataSize + dwDataSize;
 		if (GetBuffer(NewSize) < NewSize)
 			return m_dwDataSize;
 
-		// ƒf[ƒ^’Ç‰Á
+		// ãƒ‡ãƒ¼ã‚¿è¿½åŠ 
 		::CopyMemory(&m_pData[m_dwDataSize], pData, dwDataSize);
 
-		// ƒTƒCƒYƒZƒbƒg
+		// ã‚µã‚¤ã‚ºã‚»ãƒƒãƒˆ
 		m_dwDataSize += dwDataSize;
 	}
 	return m_dwDataSize;
@@ -151,15 +151,15 @@ const DWORD CMediaData::AddData(const CMediaData *pData)
 {
 	//return AddData(pData->m_pData, pData->m_dwDataSize);
 	if (pData->m_dwDataSize > 0) {
-		// ƒoƒbƒtƒ@Šm•Û
+		// ãƒãƒƒãƒ•ã‚¡ç¢ºä¿
 		DWORD NewSize = m_dwDataSize + pData->m_dwDataSize;
 		if (GetBuffer(NewSize) < NewSize)
 			return m_dwDataSize;
 
-		// ƒf[ƒ^’Ç‰Á
+		// ãƒ‡ãƒ¼ã‚¿è¿½åŠ 
 		::CopyMemory(&m_pData[m_dwDataSize], pData->m_pData, pData->m_dwDataSize);
 
-		// ƒTƒCƒYƒZƒbƒg
+		// ã‚µã‚¤ã‚ºã‚»ãƒƒãƒˆ
 		m_dwDataSize = NewSize;
 	}
 	return m_dwDataSize;
@@ -167,14 +167,14 @@ const DWORD CMediaData::AddData(const CMediaData *pData)
 
 const DWORD CMediaData::AddByte(const BYTE byData)
 {
-	// ƒoƒbƒtƒ@Šm•Û
+	// ãƒãƒƒãƒ•ã‚¡ç¢ºä¿
 	if (GetBuffer(m_dwDataSize + 1) <= m_dwDataSize)
 		return m_dwDataSize;
 
-	// ƒf[ƒ^’Ç‰Á
+	// ãƒ‡ãƒ¼ã‚¿è¿½åŠ 
 	m_pData[m_dwDataSize] = byData;
 
-	// ƒTƒCƒYXV
+	// ã‚µã‚¤ã‚ºæ›´æ–°
 	m_dwDataSize++;
 
 	return m_dwDataSize;
@@ -182,14 +182,14 @@ const DWORD CMediaData::AddByte(const BYTE byData)
 
 const DWORD CMediaData::TrimHead(const DWORD dwTrimSize)
 {
-	// ƒf[ƒ^æ“ª‚ğØ‚è‹l‚ß‚é
+	// ãƒ‡ãƒ¼ã‚¿å…ˆé ­ã‚’åˆ‡ã‚Šè©°ã‚ã‚‹
 	if (m_dwDataSize == 0 || dwTrimSize == 0) {
-		// ‰½‚à‚µ‚È‚¢
+		// ä½•ã‚‚ã—ãªã„
 	} else if (dwTrimSize >= m_dwDataSize) {
-		// ‘S‘Ì‚ğØ‚è‹l‚ß‚é
+		// å…¨ä½“ã‚’åˆ‡ã‚Šè©°ã‚ã‚‹
 		m_dwDataSize = 0UL;
 	} else {
-		// ƒf[ƒ^‚ğˆÚ“®‚·‚é
+		// ãƒ‡ãƒ¼ã‚¿ã‚’ç§»å‹•ã™ã‚‹
 		::MoveMemory(m_pData, m_pData + dwTrimSize, m_dwDataSize - dwTrimSize);
 		m_dwDataSize -= dwTrimSize;
 	}
@@ -199,12 +199,12 @@ const DWORD CMediaData::TrimHead(const DWORD dwTrimSize)
 
 const DWORD CMediaData::TrimTail(const DWORD dwTrimSize)
 {
-	// ƒf[ƒ^––”ö‚ğØ‚è‹l‚ß‚é
+	// ãƒ‡ãƒ¼ã‚¿æœ«å°¾ã‚’åˆ‡ã‚Šè©°ã‚ã‚‹
 	if (dwTrimSize >= m_dwDataSize) {
-		// ‘S‘Ì‚ğØ‚è‹l‚ß‚é
+		// å…¨ä½“ã‚’åˆ‡ã‚Šè©°ã‚ã‚‹
 		m_dwDataSize = 0UL;
 	} else {
-		// ƒf[ƒ^––”ö‚ğØ‚è‹l‚ß‚é
+		// ãƒ‡ãƒ¼ã‚¿æœ«å°¾ã‚’åˆ‡ã‚Šè©°ã‚ã‚‹
 		m_dwDataSize -= dwTrimSize;
 	}
 
@@ -216,16 +216,16 @@ const DWORD CMediaData::GetBuffer(const DWORD dwGetSize)
 	if (dwGetSize <= m_dwBuffSize)
 		return m_dwBuffSize;
 
-	// ­‚È‚­‚Æ‚àw’èƒTƒCƒY‚ğŠi”[‚Å‚«‚éƒoƒbƒtƒ@‚ğŠm•Û‚·‚é
+	// å°‘ãªãã¨ã‚‚æŒ‡å®šã‚µã‚¤ã‚ºã‚’æ ¼ç´ã§ãã‚‹ãƒãƒƒãƒ•ã‚¡ã‚’ç¢ºä¿ã™ã‚‹
 	if (!m_pData) {
-		// ƒoƒbƒtƒ@Šm•Û‚Ü‚¾
+		// ãƒãƒƒãƒ•ã‚¡ç¢ºä¿ã¾ã 
 		DWORD dwBuffSize = max(dwGetSize, MINBUFSIZE);
 
 		m_pData = static_cast<BYTE*>(Allocate(dwBuffSize));
 		if (m_pData)
 			m_dwBuffSize = dwBuffSize;
 	} else if (dwGetSize > m_dwBuffSize) {
-		// —v‹ƒTƒCƒY‚Íƒoƒbƒtƒ@ƒTƒCƒY‚ğ’´‚¦‚é
+		// è¦æ±‚ã‚µã‚¤ã‚ºã¯ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚ºã‚’è¶…ãˆã‚‹
 		DWORD dwBuffSize = dwGetSize;
 
 		if (dwBuffSize < 0x100000UL) {
@@ -249,12 +249,12 @@ const DWORD CMediaData::GetBuffer(const DWORD dwGetSize)
 const DWORD CMediaData::SetSize(const DWORD dwSetSize)
 {
 	if (dwSetSize > 0) {
-		// ƒoƒbƒtƒ@Šm•Û
+		// ãƒãƒƒãƒ•ã‚¡ç¢ºä¿
 		if (GetBuffer(dwSetSize) < dwSetSize)
 			return m_dwDataSize;
 	}
 
-	// ƒTƒCƒYƒZƒbƒg
+	// ã‚µã‚¤ã‚ºã‚»ãƒƒãƒˆ
 	m_dwDataSize = dwSetSize;
 
 	return m_dwDataSize;
@@ -262,11 +262,11 @@ const DWORD CMediaData::SetSize(const DWORD dwSetSize)
 
 const DWORD CMediaData::SetSize(const DWORD dwSetSize, const BYTE byFiller)
 {
-	// ƒTƒCƒYƒZƒbƒg
+	// ã‚µã‚¤ã‚ºã‚»ãƒƒãƒˆ
 	if (SetSize(dwSetSize) < dwSetSize)
 		return m_dwDataSize;
 
-	// ƒf[ƒ^ƒZƒbƒg
+	// ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆ
 	if (dwSetSize > 0)
 		::FillMemory(m_pData, dwSetSize, byFiller);
 
@@ -275,7 +275,7 @@ const DWORD CMediaData::SetSize(const DWORD dwSetSize, const BYTE byFiller)
 
 void CMediaData::ClearSize(void)
 {
-	// ƒf[ƒ^ƒTƒCƒY‚ğƒNƒŠƒA‚·‚é
+	// ãƒ‡ãƒ¼ã‚¿ã‚µã‚¤ã‚ºã‚’ã‚¯ãƒªã‚¢ã™ã‚‹
 	m_dwDataSize = 0UL;
 }
 

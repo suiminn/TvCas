@@ -1,4 +1,4 @@
-// MediaDecoder.h: CMediaDecoder ƒNƒ‰ƒX‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX
+ï»¿// MediaDecoder.h: CMediaDecoder ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -12,7 +12,7 @@
 
 
 //////////////////////////////////////////////////////////////////////
-// ƒƒfƒBƒAƒfƒR[ƒ_Šî’êƒNƒ‰ƒX
+// ãƒ¡ãƒ‡ã‚£ã‚¢ãƒ‡ã‚³ãƒ¼ãƒ€åŸºåº•ã‚¯ãƒ©ã‚¹
 //////////////////////////////////////////////////////////////////////
 
 class ABSTRACT_CLASS_DECL CMediaDecoder : public CBonBaseClass
@@ -41,7 +41,7 @@ protected:
 	void ResetDownstreamDecoder(void);
 	const DWORD SendDecoderEvent(const DWORD dwEventID, PVOID pParam = NULL);
 
-	// o—Íƒsƒ“ƒf[ƒ^ƒx[ƒX
+	// å‡ºåŠ›ãƒ”ãƒ³ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹
 	struct TAG_OUTPUTDECODER
 	{
 		CMediaDecoder *pDecoder;

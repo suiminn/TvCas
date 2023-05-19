@@ -1,4 +1,4 @@
-#include "stdafx.h"
+Ôªø#include "stdafx.h"
 #include "TVCAS.h"
 #include "TVCAS_B1.h"
 #include "TsPacketParser.h"
@@ -213,7 +213,7 @@ private:
 
 const CCasManagerB25::ReaderDeviceInfo CCasManagerB25::m_CasDeviceList[NUM_DEVICES] =
 {
-	{CCardReader::READER_SCARD,			{DEVICE_ID_SCARD,			0,	TEXT("SmartCard"),		TEXT("ÉXÉ}Å[ÉgÉJÅ[ÉhÉäÅ[É_Å[")}},
+	{CCardReader::READER_SCARD,			{DEVICE_ID_SCARD,			0,	TEXT("SmartCard"),		TEXT("„Çπ„Éû„Éº„Éà„Ç´„Éº„Éâ„É™„Éº„ÉÄ„Éº")}},
 #ifdef CARDREADER_BONCASCLIENT_SUPPORT
 	{CCardReader::READER_BONCASCLIENT,	{DEVICE_ID_BONCASCLIENT,	0,	TEXT("BonCasClient"),	TEXT("BonCasClient")}},
 #endif
@@ -589,7 +589,7 @@ int CCasManagerB25::GetInstructionName(int Instruction, LPWSTR pszName, int MaxN
 
 	switch (Instruction) {
 	case CTsDescrambler::INSTRUCTION_NORMAL:
-		pszInstruction = L"ägí£ñΩóﬂÇ»Çµ";
+		pszInstruction = L"Êã°ÂºµÂëΩ‰ª§„Å™„Åó";
 		break;
 
 	case CTsDescrambler::INSTRUCTION_SSE2:
