@@ -1,4 +1,4 @@
-﻿// CasCard.cpp: CCasCard クラスのインプリメンテーション
+// CasCard.cpp: CCasCard クラスのインプリメンテーション
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -183,7 +183,7 @@ const bool CCasCard::InitialSetting(void)
 	BYTE RecvData[RECEIVE_BUFFER_SIZE];
 
 	// 初期設定条件コマンド送信
-	static const BYTE InitSettingCmd[] = {0x90U, 0x30U, 0x00U, 0x00U, 0x00U};
+	static const BYTE InitSettingCmd[] = {0x90U, 0x30U, 0x00U, 0x02U, 0x00U};
 	::ZeroMemory(RecvData, sizeof(RecvData));
 	dwRecvSize = sizeof(RecvData);
 	TRACE(TEXT("Send \"Initial Setting Conditions Command\"\n"));
@@ -211,7 +211,7 @@ const bool CCasCard::InitialSetting(void)
 	}
 
 	// カードID情報取得コマンド送信
-	static const BYTE CardIDInfoCmd[] = {0x90, 0x32, 0x00, 0x00, 0x00};
+	static const BYTE CardIDInfoCmd[] = {0x90, 0x32, 0x00, 0x01, 0x00};
 	::ZeroMemory(RecvData, sizeof(RecvData));
 	dwRecvSize = sizeof(RecvData);
 	TRACE(TEXT("Send \"Card ID Information Acquire Command\"\n"));
@@ -407,7 +407,7 @@ const BYTE * CCasCard::GetKsFromEcm(const BYTE *pEcmData, const DWORD dwEcmSize)
 	}
 
 	// バッファ準備
-	static const BYTE EcmReceiveCmd[] = {0x90, 0x34, 0x00, 0x00};
+	static const BYTE EcmReceiveCmd[] = {0x90, 0x34, 0x00, 0x02};
 	BYTE SendData[MAX_ECM_DATA_SIZE + 6];
 	BYTE RecvData[RECEIVE_BUFFER_SIZE];
 	::ZeroMemory(RecvData, sizeof(RecvData));
