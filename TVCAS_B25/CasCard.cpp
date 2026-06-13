@@ -31,6 +31,7 @@ inline WORD GetReturnCode(const BYTE *pRecvData)
 
 CCasCard::CCasCard()
 	: m_pCardReader(NULL)
+	, m_CardCommandType(CARD_COMMAND_BCAS)
 {
 	// 内部状態初期化
 	::ZeroMemory(&m_CasCardInfo, sizeof(m_CasCardInfo));
@@ -110,6 +111,7 @@ void CCasCard::CloseCard(void)
 		delete m_pCardReader;
 		m_pCardReader = NULL;
 	}
+	m_CardCommandType = CARD_COMMAND_BCAS;
 }
 
 
@@ -170,6 +172,15 @@ const bool CCasCard::OpenAndInitialize(LPCTSTR pszReader)
 
 const bool CCasCard::InitialSetting(void)
 {
+	if (InitialSetting(CARD_COMMAND_BCAS))
+		return true;
+
+	return InitialSetting(CARD_COMMAND_ACAS);
+}
+
+
+const bool CCasCard::InitialSetting(CardCommandType CommandType)
+{
 	// 「Initial Setting Conditions Command」を処理する
 	/*
 	if (!m_pCardReader) {
@@ -181,19 +192,29 @@ const bool CCasCard::InitialSetting(void)
 	// バッファ準備
 	DWORD dwRecvSize;
 	BYTE RecvData[RECEIVE_BUFFER_SIZE];
+	::ZeroMemory(&m_CasCardInfo, sizeof(m_CasCardInfo));
 
 	// 初期設定条件コマンド送信
-	static const BYTE InitSettingCmd[] = {0x90U, 0x30U, 0x00U, 0x00U, 0x00U};
+	static const BYTE InitSettingCmd[][5] = {
+		{0x90U, 0x30U, 0x00U, 0x00U, 0x00U},
+		{0x90U, 0x30U, 0x00U, 0x02U, 0x00U}
+	};
 	::ZeroMemory(RecvData, sizeof(RecvData));
 	dwRecvSize = sizeof(RecvData);
-	TRACE(TEXT("Send \"Initial Setting Conditions Command\"\n"));
-	if (!m_pCardReader->Transmit(InitSettingCmd, sizeof(InitSettingCmd), RecvData, &dwRecvSize)) {
+	TRACE(TEXT("Send \"Initial Setting Conditions Command\" (%s)\n"),
+		  CommandType == CARD_COMMAND_ACAS ? TEXT("ACAS") : TEXT("B-CAS"));
+	if (!m_pCardReader->Transmit(InitSettingCmd[CommandType], sizeof(InitSettingCmd[0]), RecvData, &dwRecvSize)) {
 		SetError(ERR_TRANSMITERROR, m_pCardReader->GetLastErrorText());
 		return false;
 	}
 
 	if (dwRecvSize < 57UL) {
 		SetError(ERR_TRANSMITERROR, TEXT("受信データのサイズが不正です。"));
+		return false;
+	}
+
+	if (GetReturnCode(RecvData) != 0x2100U) {
+		SetError(ERR_TRANSMITERROR, TEXT("初期設定条件コマンドのリターンコードが不正です。"));
 		return false;
 	}
 
@@ -211,17 +232,26 @@ const bool CCasCard::InitialSetting(void)
 	}
 
 	// カードID情報取得コマンド送信
-	static const BYTE CardIDInfoCmd[] = {0x90, 0x32, 0x00, 0x00, 0x00};
+	static const BYTE CardIDInfoCmd[][5] = {
+		{0x90, 0x32, 0x00, 0x00, 0x00},
+		{0x90, 0x32, 0x00, 0x01, 0x00}
+	};
 	::ZeroMemory(RecvData, sizeof(RecvData));
 	dwRecvSize = sizeof(RecvData);
-	TRACE(TEXT("Send \"Card ID Information Acquire Command\"\n"));
-	if (!m_pCardReader->Transmit(CardIDInfoCmd, sizeof(CardIDInfoCmd), RecvData, &dwRecvSize)) {
+	TRACE(TEXT("Send \"Card ID Information Acquire Command\" (%s)\n"),
+		  CommandType == CARD_COMMAND_ACAS ? TEXT("ACAS") : TEXT("B-CAS"));
+	if (!m_pCardReader->Transmit(CardIDInfoCmd[CommandType], sizeof(CardIDInfoCmd[0]), RecvData, &dwRecvSize)) {
 		SetError(ERR_TRANSMITERROR, m_pCardReader->GetLastErrorText());
 		return false;
 	}
 
 	if (dwRecvSize < 19) {
 		SetError(ERR_TRANSMITERROR, TEXT("受信データのサイズが不正です。"));
+		return false;
+	}
+
+	if (GetReturnCode(RecvData) != 0x2100U) {
+		SetError(ERR_TRANSMITERROR, TEXT("カードID情報取得コマンドのリターンコードが不正です。"));
 		return false;
 	}
 
@@ -236,6 +266,7 @@ const bool CCasCard::InitialSetting(void)
 
 	// ECMステータス初期化
 	::ZeroMemory(&m_EcmStatus, sizeof(m_EcmStatus));
+	m_CardCommandType = CommandType;
 
 	return true;
 }
@@ -407,20 +438,26 @@ const BYTE * CCasCard::GetKsFromEcm(const BYTE *pEcmData, const DWORD dwEcmSize)
 	}
 
 	// バッファ準備
-	static const BYTE EcmReceiveCmd[] = {0x90, 0x34, 0x00, 0x00};
+	static const BYTE EcmReceiveCmd[][4] = {
+		{0x90, 0x34, 0x00, 0x00},
+		{0x90, 0x34, 0x00, 0x02}
+	};
+	const DWORD EcmReceiveCmdSize = sizeof(EcmReceiveCmd[0]);
 	BYTE SendData[MAX_ECM_DATA_SIZE + 6];
 	BYTE RecvData[RECEIVE_BUFFER_SIZE];
 	::ZeroMemory(RecvData, sizeof(RecvData));
 
 	// コマンド構築
-	::CopyMemory(SendData, EcmReceiveCmd, sizeof(EcmReceiveCmd));				// CLA, INS, P1, P2
-	SendData[sizeof(EcmReceiveCmd)] = (BYTE)dwEcmSize;							// COMMAND DATA LENGTH
-	::CopyMemory(&SendData[sizeof(EcmReceiveCmd) + 1], pEcmData, dwEcmSize);	// ECM
-	SendData[sizeof(EcmReceiveCmd) + dwEcmSize + 1] = 0x00U;					// RESPONSE DATA LENGTH
+	::CopyMemory(SendData, EcmReceiveCmd[m_CardCommandType], EcmReceiveCmdSize);	// CLA, INS, P1, P2
+	SendData[EcmReceiveCmdSize] = (BYTE)dwEcmSize;								// COMMAND DATA LENGTH
+	::CopyMemory(&SendData[EcmReceiveCmdSize + 1], pEcmData, dwEcmSize);		// ECM
+	SendData[EcmReceiveCmdSize + dwEcmSize + 1] = 0x00U;						// RESPONSE DATA LENGTH
 
 	// コマンド送信
 	DWORD dwRecvSize = sizeof(RecvData);
-	if (!m_pCardReader->Transmit(SendData, sizeof(EcmReceiveCmd) + dwEcmSize + 2UL, RecvData, &dwRecvSize)){
+	TRACE(TEXT("Send \"ECM Receive Command\" (%s)\n"),
+		  m_CardCommandType == CARD_COMMAND_ACAS ? TEXT("ACAS") : TEXT("B-CAS"));
+	if (!m_pCardReader->Transmit(SendData, EcmReceiveCmdSize + dwEcmSize + 2UL, RecvData, &dwRecvSize)){
 		::ZeroMemory(&m_EcmStatus, sizeof(m_EcmStatus));
 		SetError(ERR_TRANSMITERROR, m_pCardReader->GetLastErrorText());
 		return NULL;

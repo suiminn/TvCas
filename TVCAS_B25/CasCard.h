@@ -87,10 +87,18 @@ public:
 	const bool SendCommand(const BYTE *pSendData, const DWORD SendSize, BYTE *pReceiveData, DWORD *pReceiveSize);
 
 protected:
+	enum CardCommandType
+	{
+		CARD_COMMAND_BCAS,
+		CARD_COMMAND_ACAS
+	};
+
 	const bool OpenAndInitialize(LPCTSTR pszReader);
 	const bool InitialSetting(void);
+	const bool InitialSetting(CardCommandType CommandType);
 
 	CCardReader *m_pCardReader;
+	CardCommandType m_CardCommandType;
 
 	CasCardInfo m_CasCardInfo;
 
