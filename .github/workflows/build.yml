@@ -32,7 +32,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Add MSBuild to PATH
         uses: microsoft/setup-msbuild@v3
@@ -47,7 +47,7 @@ jobs:
           /verbosity:minimal
 
       - name: Upload build outputs
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: TvCas-${{ matrix.configuration }}-${{ matrix.platform }}
           path: ${{ matrix.output_platform }}/${{ matrix.configuration }}/
