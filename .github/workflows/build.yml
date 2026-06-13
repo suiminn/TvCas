@@ -1,0 +1,54 @@
+name: Build
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: ${{ matrix.configuration }} ${{ matrix.platform }}
+    runs-on: windows-2022
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - configuration: Release
+            platform: x86
+            output_platform: Win32
+          - configuration: Release
+            platform: x64
+            output_platform: x64
+          - configuration: Debug
+            platform: x86
+            output_platform: Win32
+          - configuration: Debug
+            platform: x64
+            output_platform: x64
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Add MSBuild to PATH
+        uses: microsoft/setup-msbuild@v3
+
+      - name: Build solution
+        run: >
+          msbuild TvCas.sln
+          /m
+          /p:Configuration=${{ matrix.configuration }}
+          /p:Platform=${{ matrix.platform }}
+          /p:PlatformToolset=v142
+          /verbosity:minimal
+
+      - name: Upload build outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: TvCas-${{ matrix.configuration }}-${{ matrix.platform }}
+          path: ${{ matrix.output_platform }}/${{ matrix.configuration }}/
+          if-no-files-found: error
